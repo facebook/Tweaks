@@ -11,7 +11,7 @@
 #import <FBTweak/FBTweakShakeWindow.h>
 #import <FBTweak/FBTweakInline.h>
 #import <FBTweak/FBTweakViewController.h>
-
+#import <FBTweak/FBTweakStore.h>
 #import "FBAppDelegate.h"
 
 @interface FBAppDelegate () <FBTweakObserver, FBTweakViewControllerDelegate>
@@ -24,6 +24,7 @@
   UILabel *_label;
   FBTweak *_flipTweak;
 }
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -65,6 +66,13 @@
   [_rootViewController.view addSubview:tweaksButton];
   
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    [[FBTweakStore sharedInstance] loadTweakValuesFromURL:url];
+    
+    return YES;
 }
 
 - (void)tweakDidChange:(FBTweak *)tweak

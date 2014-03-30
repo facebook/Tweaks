@@ -57,7 +57,7 @@ As with `FBTweakValue`, in release builds `FBTweakBind` expands to just setting 
 ### Tweaks UI
 To configure your tweaks, you need a way to show the configuration UI. There's two options for that:
 
- - Traditionally, tweaks is activated by shaking your phone. To use that, just replace your root `UIWindow` with a `FBTweakShakeWindow`. 
+ - Traditionally, tweaks is activated by shaking your phone. To use that, just replace your root `UIWindow` with a `FBTweakShakeWindow`.
  - You can present a `FBTweakViewController` from anywhere in your app. Be sure to restrict the activation UI to debug builds!
 
 ### Advanced
@@ -89,6 +89,21 @@ Then, you can watch for when the tweak changes:
 
 To override when tweaks are enabled, you can define the `FB_TWEAK_ENABLED` macro. It's suggested to avoid including them when submitting to the App Store.
 
+To enable URL Scheme config sharing, register the following URL Scheme in your info.plist
+
+FBTweaks.(Your Bundle Identifier)
+
+and add the following code in your AppDelegate
+
+```objective-c
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    [[FBTweakStore sharedInstance] loadTweakValuesFromURL:url];
+
+    return YES;
+}
+```
+
 ### How it works
 In debug builds, the tweak macros use `__attribute__((section))` to statically store data about each tweak in the `__FBTweak` section of the mach-o. Tweaks loads that data at startup and loads the latest values from `NSUserDefaults`.
 
@@ -109,4 +124,3 @@ See the CONTRIBUTING file for how to help out.
 
 ## License
 Tweaks is BSD-licensed. We also provide an additional patent grant.
-

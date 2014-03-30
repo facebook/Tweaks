@@ -46,6 +46,13 @@
 - (void)removeTweakCategory:(FBTweakCategory *)category;
 
 /**
+ @abstract Loads Tweak parameters from a URL Scheme.
+ @param url The url containing the GET parameters and values.
+ */
+- (void)loadTweakValuesFromURL:(NSURL *)url;
+
+
+/**
   @abstract Resets all tweaks in the store.
  */
 - (void)reset;

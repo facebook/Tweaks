@@ -61,6 +61,32 @@
   [_orderedCategories removeObject:category];
 }
 
+-(void)loadTweakValuesFromURL:(NSURL *)url
+{
+    if (![[url host] isEqualToString:@"importTweaks"]) {
+        return;
+    }
+    [self reset];
+    NSNumberFormatter* nf=[[NSNumberFormatter alloc] init];
+    NSArray* parameters=[[[url query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] componentsSeparatedByString:@"&"];
+    for (NSString* param in parameters) {
+        NSArray* paramComponents=[param componentsSeparatedByString:@"="];
+        NSArray* tweakPath=[paramComponents[0] componentsSeparatedByString:@"-"];
+        
+        FBTweakCategory* category=(FBTweakCategory*)[self tweakCategoryWithName:tweakPath[0]];
+        FBTweakCollection* collection=(FBTweakCollection*)[category tweakCollectionWithName:tweakPath[1]];
+        FBTweak* tweak= (FBTweak*)[collection tweakWithIdentifier:[NSString
+                                                                   stringWithFormat:@"FBTweak:%@",paramComponents[0]]] ;
+        NSNumber* tweakValue=[nf numberFromString:paramComponents[1]];
+        if (!tweakValue) {
+            tweak.currentValue=paramComponents[1];
+        }
+        else{
+            tweak.currentValue=tweakValue;
+        }
+    }
+}
+
 - (void)reset
 {
   for (FBTweakCategory *category in self.tweakCategories) {

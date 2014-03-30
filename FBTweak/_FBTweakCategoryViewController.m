@@ -9,9 +9,11 @@
 
 #import "FBTweakStore.h"
 #import "FBTweakCategory.h"
+#import "FBTweakCollection.h"
+#import "FBTweak.h"
 #import "_FBTweakCategoryViewController.h"
 
-@interface _FBTweakCategoryViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface _FBTweakCategoryViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
 @end
 
 @implementation _FBTweakCategoryViewController {
@@ -39,7 +41,7 @@
   _tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
   [self.view addSubview:_tableView];
   
-  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(_reset)];
+  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Options" style:UIBarButtonItemStylePlain target:self action:@selector(_options)];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(_done)];
 }
 
@@ -54,9 +56,55 @@
   [_delegate tweakCategoryViewControllerSelectedDone:self];
 }
 
+-(void)_options
+{
+    UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+                            @"Reset",
+                            @"Copy Config URL",
+                            nil];
+    [popup showInView:self.view];
+}
+
 - (void)_reset
 {
   [_store reset];
+}
+
+-(void)_exportURLSchemeConfigToPasteboard
+{
+    NSMutableArray* query=[NSMutableArray array];
+    for (FBTweakCategory* category in _store.tweakCategories) {
+        for (FBTweakCollection* collection in category.tweakCollections) {
+            for (FBTweak* tweak in collection.tweaks) {
+                if (tweak.currentValue) {
+                    [query addObject:[NSString stringWithFormat:@"%@-%@-%@=%@",category.name,collection.name,tweak.name,tweak.currentValue]];
+                    
+                }
+            }
+        }
+    }
+    if ([query count]==0) {
+        NSLog(@"No values tweaked");
+        return;
+    }
+
+    NSString* url= [[NSString stringWithFormat:@"FBTweaks.%@://importFBTweaks?%@",
+                     [[NSBundle mainBundle] bundleIdentifier],
+                     [query componentsJoinedByString:@"&"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    UIPasteboard *pb = [UIPasteboard generalPasteboard];
+    [pb setString:url];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==0) {
+        [self _reset];
+    }
+    else{
+        [self _exportURLSchemeConfigToPasteboard];
+
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
