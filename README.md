@@ -91,7 +91,9 @@ To override when tweaks are enabled, you can define the `FB_TWEAK_ENABLED` macro
 
 To enable URL Scheme config sharing, register the following URL Scheme in your info.plist
 
+```
 FBTweaks.(Your Bundle Identifier)
+```
 
 and add the following code in your AppDelegate
 
