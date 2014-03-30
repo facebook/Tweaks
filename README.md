@@ -57,8 +57,31 @@ As with `FBTweakValue`, in release builds `FBTweakBind` expands to just setting 
 ### Tweaks UI
 To configure your tweaks, you need a way to show the configuration UI. There's two options for that:
 
- - Traditionally, tweaks is activated by shaking your phone. To use that, just replace your root `UIWindow` with a `FBTweakShakeWindow`. 
+ - Traditionally, tweaks is activated by shaking your phone. To use that, just replace your root `UIWindow` with a `FBTweakShakeWindow`.
  - You can present a `FBTweakViewController` from anywhere in your app. Be sure to restrict the activation UI to debug builds!
+
+If you are building a storyboard-based application, and want to rely on `FBTweakShakeWindow` so that you can activate with a shake gesture throughout your app, then you need to prevent the system from creating a `UIWindow`, which is the default. To do this, you can override your app delegate's getter so that it it will use `FBTweakShakeWindow`, like so:
+
+```objective-c
+#import "MyAppDelegate.h"
+
+#import "FBTweakShakeWindow.h"
+
+@implementation MyAppDelegate
+
+#ifdef DEBUG
+-(UIWindow*)window
+{
+  if (!_window) {
+    _window = [[FBTweakShakeWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  }
+  return _window;
+}
+#endif
+
+// etc.
+@end
+```
 
 ### Advanced
 You can also access the objects that make up the macros mentioned above. That can be useful for more complex scenarios, like adjusting members of a C structure.
