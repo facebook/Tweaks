@@ -138,8 +138,19 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
     _textField.keyboardType = UIKeyboardTypeNumberPad;
     _stepper.hidden = NO;
     _stepper.stepValue = 1.0;
-    _stepper.minimumValue = [_tweak.minimumValue longLongValue];
-    _stepper.maximumValue = [_tweak.maximumValue longLongValue];
+    
+    if (_tweak.minimumValue != nil) {
+      _stepper.minimumValue = [_tweak.minimumValue longLongValue];
+    } else {
+      _stepper.minimumValue = [_tweak.defaultValue longLongValue] - 50;
+    }
+    
+    if (_tweak.maximumValue != nil) {
+      _stepper.maximumValue = [_tweak.maximumValue longLongValue];
+    } else {
+      _stepper.maximumValue = [_tweak.defaultValue longLongValue] + 50;
+    }
+    
   } else if (_mode == _FBTweakTableViewCellModeReal) {
     _switch.hidden = YES;
     _textField.hidden = NO;
