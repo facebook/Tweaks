@@ -10,12 +10,16 @@
 #import "FBTweakStore.h"
 #import "FBTweakCategory.h"
 #import "_FBTweakCategoryViewController.h"
+#import "FBTweak.h"
+#import "FBTweakCollection.h"
+#import <MessageUI/MessageUI.h>
 
-@interface _FBTweakCategoryViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface _FBTweakCategoryViewController () <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 @end
 
 @implementation _FBTweakCategoryViewController {
   UITableView *_tableView;
+  UIToolbar *_toolbar;
 }
 
 - (instancetype)initWithStore:(FBTweakStore *)store
@@ -33,14 +37,27 @@
 {
   [super viewDidLoad];
   
-  _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+  CGFloat toolBarHeight = 44.0;
+  _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds) - toolBarHeight, CGRectGetWidth(self.view.bounds), toolBarHeight)];
+  [_toolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+  [self.view addSubview:_toolbar];
+  
+  CGRect tableViewFrame = self.view.bounds;
+  tableViewFrame.size.height -= CGRectGetHeight(_toolbar.bounds);
+  _tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
   _tableView.delegate = self;
   _tableView.dataSource = self;
+  UIEdgeInsets contentInset = _tableView.contentInset;
+  contentInset.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+  _tableView.contentInset = contentInset;
   _tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
   [self.view addSubview:_tableView];
   
   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(_reset)];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(_done)];
+  
+  NSArray *toolBarButtons = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil], [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(_export)]];
+  [_toolbar setItems:toolBarButtons animated:NO];
 }
 
 - (void)dealloc
@@ -57,6 +74,11 @@
 - (void)_reset
 {
   [_store reset];
+}
+
+- (void)_export
+{
+  [self _exportTweaks];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -96,6 +118,46 @@
 {
   FBTweakCategory *category = _store.tweakCategories[indexPath.row];
   [_delegate tweakCategoryViewController:self selectedCategory:category];
+}
+
+- (void)_exportTweaks
+{
+  MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+  mailComposeViewController.mailComposeDelegate = self;
+  
+  
+  NSMutableDictionary *categoryDictionary = [NSMutableDictionary new];
+  [self.store.tweakCategories
+   enumerateObjectsUsingBlock:^(FBTweakCategory *category, NSUInteger idx, BOOL *stop) {
+     NSMutableDictionary *collectionDictionary = [NSMutableDictionary new];
+     for (FBTweakCollection *collection in category.tweakCollections) {
+       NSMutableDictionary *tweakDictionary = [NSMutableDictionary new];
+       for (FBTweak *tweak in collection.tweaks) {
+         [tweakDictionary setValue:tweak.currentValue forKey:tweak.name];
+       }
+       [collectionDictionary setValue:tweakDictionary forKey:collection.name];
+     }
+     [categoryDictionary setValue:collectionDictionary forKey:category.name];
+   }];
+  
+  NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+  NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+  
+  NSString *subject = [NSString stringWithFormat:@"%@ Tweaks",appName];
+  NSString *body = [NSString stringWithFormat:@"%@ \n%@", appName, version];
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:categoryDictionary];
+  
+  NSString *fileName = [NSString stringWithFormat:@"%@_tweaks.plist", appName];
+  [mailComposeViewController addAttachmentData:data mimeType:@"plist" fileName:fileName];
+  [mailComposeViewController setSubject:subject];
+  [mailComposeViewController setMessageBody:body isHTML:NO];
+  
+  [self presentViewController:mailComposeViewController animated:YES completion:nil];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

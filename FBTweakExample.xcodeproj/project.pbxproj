@@ -15,6 +15,7 @@
 		18EFE4FC189F02F800DA6A5D /* FBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4FB189F02F800DA6A5D /* FBAppDelegate.m */; };
 		18EFE4FE189F02F800DA6A5D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18EFE4FD189F02F800DA6A5D /* Images.xcassets */; };
 		18EFE524189F04B000DA6A5D /* libFBTweak.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EFE523189F04B000DA6A5D /* libFBTweak.a */; };
+		29E9F17D18E35D2B001EAF7D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E9F17C18E35D2B001EAF7D /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		18EFE4FD189F02F800DA6A5D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		18EFE504189F02F800DA6A5D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		18EFE523189F04B000DA6A5D /* libFBTweak.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBTweak.a; path = "../FBTweak/build/Debug-iphoneos/libFBTweak.a"; sourceTree = "<group>"; };
+		29E9F17C18E35D2B001EAF7D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29E9F17D18E35D2B001EAF7D /* MessageUI.framework in Frameworks */,
 				18EFE524189F04B000DA6A5D /* libFBTweak.a in Frameworks */,
 				18EFE4EE189F02F800DA6A5D /* CoreGraphics.framework in Frameworks */,
 				18EFE4F0189F02F800DA6A5D /* UIKit.framework in Frameworks */,
@@ -68,6 +71,7 @@
 		18EFE4EA189F02F800DA6A5D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				29E9F17C18E35D2B001EAF7D /* MessageUI.framework */,
 				18EFE523189F04B000DA6A5D /* libFBTweak.a */,
 				18EFE4EB189F02F800DA6A5D /* Foundation.framework */,
 				18EFE4ED189F02F800DA6A5D /* CoreGraphics.framework */,
