@@ -9,6 +9,7 @@ Pod::Spec.new do |spec|
   spec.source_files = 'FBTweak/*.{h,m}'
   spec.requires_arc = true
   spec.social_media_url = 'https://twitter.com/fbOpenSource'
+  spec.framework = 'MessageUI'
   
   spec.ios.deployment_target = '6.0'
 end

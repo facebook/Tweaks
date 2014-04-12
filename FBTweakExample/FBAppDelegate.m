@@ -63,7 +63,7 @@
   [tweaksButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
   [tweaksButton addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
   [_rootViewController.view addSubview:tweaksButton];
-  
+
   return YES;
 }
 

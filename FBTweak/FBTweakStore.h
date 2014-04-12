@@ -50,4 +50,9 @@
  */
 - (void)reset;
 
+/**
+ @abstract Returns a dictionary representation of the store to be used for exporting.
+ */
+- (NSDictionary *)dictionaryRepresentation;
+
 @end

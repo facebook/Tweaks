@@ -10,12 +10,15 @@
 #import "FBTweakStore.h"
 #import "FBTweakCategory.h"
 #import "_FBTweakCategoryViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface _FBTweakCategoryViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface _FBTweakCategoryViewController () <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 @end
 
 @implementation _FBTweakCategoryViewController {
   UITableView *_tableView;
+  UIToolbar *_toolbar;
+  UIBarButtonItem *_exportButton;
 }
 
 - (instancetype)initWithStore:(FBTweakStore *)store
@@ -33,14 +36,32 @@
 {
   [super viewDidLoad];
   
-  _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+  _toolbar = [[UIToolbar alloc] init];
+  [_toolbar sizeToFit];
+  CGRect toolbarFrame = _toolbar.frame;
+  toolbarFrame.origin.y = CGRectGetMaxY(self.view.bounds) - CGRectGetHeight(toolbarFrame);
+  _toolbar.frame = toolbarFrame;
+  [_toolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin];
+  [self.view addSubview:_toolbar];
+  
+  CGRect tableViewFrame = self.view.bounds;
+  _tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
   _tableView.delegate = self;
   _tableView.dataSource = self;
+  UIEdgeInsets contentInset = _tableView.contentInset;
+  contentInset.bottom = CGRectGetHeight(toolbarFrame);
+  _tableView.contentInset = contentInset;
   _tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-  [self.view addSubview:_tableView];
+  [self.view insertSubview:_tableView belowSubview:_toolbar];
   
   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(_reset)];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(_done)];
+  
+  if ([MFMailComposeViewController canSendMail]) {
+    _exportButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(_export)];
+    NSArray *toolBarButtons = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil], _exportButton];
+    [_toolbar setItems:toolBarButtons animated:NO];
+  }
 }
 
 - (void)dealloc
@@ -57,6 +78,11 @@
 - (void)_reset
 {
   [_store reset];
+}
+
+- (void)_export
+{
+  [self _exportTweaks];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -96,6 +122,39 @@
 {
   FBTweakCategory *category = _store.tweakCategories[indexPath.row];
   [_delegate tweakCategoryViewController:self selectedCategory:category];
+}
+
+- (void)_exportTweaks
+{
+  MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+  mailComposeViewController.mailComposeDelegate = self;
+  
+  NSDictionary *storeDictionary = [self.store dictionaryRepresentation];
+  
+  NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+  NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+  
+  NSString *subject = [NSString stringWithFormat:@"%@ Tweaks",appName];
+  NSString *body = [NSString stringWithFormat:@"%@ \n%@", appName, version];
+  NSData *data = [NSPropertyListSerialization dataWithPropertyList:storeDictionary
+                                                            format:NSPropertyListXMLFormat_v1_0
+                                                           options:0
+                                                             error:nil];
+  
+  NSString *fileName = [NSString stringWithFormat:@"%@_tweaks.plist", appName];
+  [mailComposeViewController addAttachmentData:data mimeType:@"plist" fileName:fileName];
+  [mailComposeViewController setSubject:subject];
+  [mailComposeViewController setMessageBody:body isHTML:NO];
+  
+  [self presentViewController:mailComposeViewController animated:YES completion:nil];
+  
+  [_exportButton setEnabled:NO];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+  [self dismissViewControllerAnimated:YES completion:nil];
+  [_exportButton setEnabled:YES];
 }
 
 @end

@@ -72,4 +72,27 @@
   }
 }
 
+
+- (NSDictionary *)dictionaryRepresentation
+{
+  NSMutableDictionary *categoryDictionary = [NSMutableDictionary new];
+  [self.tweakCategories
+   enumerateObjectsUsingBlock:^(FBTweakCategory *category, NSUInteger idx, BOOL *stop) {
+     NSMutableDictionary *collectionDictionary = [NSMutableDictionary new];
+     for (FBTweakCollection *collection in category.tweakCollections) {
+       NSMutableDictionary *tweakDictionary = [NSMutableDictionary new];
+       for (FBTweak *tweak in collection.tweaks) {
+         if (tweak.currentValue) {
+           [tweakDictionary setValue:tweak.currentValue forKey:tweak.name];
+         } else {
+           [tweakDictionary setValue:tweak.defaultValue forKey:tweak.name];
+         }
+       }
+       [collectionDictionary setValue:tweakDictionary forKey:collection.name];
+     }
+     [categoryDictionary setValue:collectionDictionary forKey:category.name];
+   }];
+  return [NSDictionary dictionaryWithDictionary:categoryDictionary];
+}
+
 @end

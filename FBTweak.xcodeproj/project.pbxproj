@@ -39,6 +39,7 @@
 		18EFE528189F19B300DA6A5D /* FBTweakCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE526189F19B300DA6A5D /* FBTweakCategory.m */; };
 		18EFE52D189F250700DA6A5D /* FBTweakInlineTestsMRR.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE52C189F250700DA6A5D /* FBTweakInlineTestsMRR.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		18EFE536189F38D500DA6A5D /* FBTweakEnabled.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE535189F38D500DA6A5D /* FBTweakEnabled.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		29E9F17B18E35C9C001EAF7D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E9F17A18E35C9C001EAF7D /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		18EFE526189F19B300DA6A5D /* FBTweakCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBTweakCategory.m; sourceTree = "<group>"; };
 		18EFE52C189F250700DA6A5D /* FBTweakInlineTestsMRR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBTweakInlineTestsMRR.m; sourceTree = "<group>"; };
 		18EFE535189F38D500DA6A5D /* FBTweakEnabled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBTweakEnabled.h; sourceTree = "<group>"; };
+		29E9F17A18E35C9C001EAF7D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29E9F17B18E35C9C001EAF7D /* MessageUI.framework in Frameworks */,
 				18EFE472189EBA4900DA6A5D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,6 +136,7 @@
 		18EFE470189EBA4900DA6A5D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				29E9F17A18E35C9C001EAF7D /* MessageUI.framework */,
 				18EFE471189EBA4900DA6A5D /* Foundation.framework */,
 				18EFE47F189EBA4900DA6A5D /* XCTest.framework */,
 				18EFE482189EBA4900DA6A5D /* UIKit.framework */,
