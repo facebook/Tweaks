@@ -35,9 +35,12 @@
 {
   [super viewDidLoad];
   
-  CGFloat toolBarHeight = 44.0;
-  _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds) - toolBarHeight, CGRectGetWidth(self.view.bounds), toolBarHeight)];
-  [_toolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+  _toolbar = [[UIToolbar alloc] init];
+  [_toolbar sizeToFit];
+  CGRect toolbarFrame = _toolbar.frame;
+  toolbarFrame.origin.y = CGRectGetMaxY(self.view.bounds) - CGRectGetHeight(toolbarFrame);
+  _toolbar.frame = toolbarFrame;
+  [_toolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin];
   [self.view addSubview:_toolbar];
   
   CGRect tableViewFrame = self.view.bounds;
