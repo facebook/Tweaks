@@ -10,8 +10,6 @@
 #import "FBTweakStore.h"
 #import "FBTweakCategory.h"
 #import "_FBTweakCategoryViewController.h"
-#import "FBTweak.h"
-#import "FBTweakCollection.h"
 #import <MessageUI/MessageUI.h>
 
 @interface _FBTweakCategoryViewController () <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
@@ -125,27 +123,14 @@
   MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
   mailComposeViewController.mailComposeDelegate = self;
   
-  
-  NSMutableDictionary *categoryDictionary = [NSMutableDictionary new];
-  [self.store.tweakCategories
-   enumerateObjectsUsingBlock:^(FBTweakCategory *category, NSUInteger idx, BOOL *stop) {
-     NSMutableDictionary *collectionDictionary = [NSMutableDictionary new];
-     for (FBTweakCollection *collection in category.tweakCollections) {
-       NSMutableDictionary *tweakDictionary = [NSMutableDictionary new];
-       for (FBTweak *tweak in collection.tweaks) {
-         [tweakDictionary setValue:tweak.currentValue forKey:tweak.name];
-       }
-       [collectionDictionary setValue:tweakDictionary forKey:collection.name];
-     }
-     [categoryDictionary setValue:collectionDictionary forKey:category.name];
-   }];
+  NSDictionary *storeDictionary = [self.store dictionaryRepresentation];
   
   NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
   NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
   
   NSString *subject = [NSString stringWithFormat:@"%@ Tweaks",appName];
   NSString *body = [NSString stringWithFormat:@"%@ \n%@", appName, version];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:categoryDictionary];
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:storeDictionary];
   
   NSString *fileName = [NSString stringWithFormat:@"%@_tweaks.plist", appName];
   [mailComposeViewController addAttachmentData:data mimeType:@"plist" fileName:fileName];
