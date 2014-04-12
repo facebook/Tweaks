@@ -18,6 +18,7 @@
 @implementation _FBTweakCategoryViewController {
   UITableView *_tableView;
   UIToolbar *_toolbar;
+  UIBarButtonItem *_exportButton;
 }
 
 - (instancetype)initWithStore:(FBTweakStore *)store
@@ -44,21 +45,23 @@
   [self.view addSubview:_toolbar];
   
   CGRect tableViewFrame = self.view.bounds;
-  tableViewFrame.size.height -= CGRectGetHeight(_toolbar.bounds);
   _tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
   _tableView.delegate = self;
   _tableView.dataSource = self;
   UIEdgeInsets contentInset = _tableView.contentInset;
-  contentInset.top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+  contentInset.bottom = CGRectGetHeight(toolbarFrame);
   _tableView.contentInset = contentInset;
   _tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-  [self.view addSubview:_tableView];
+  [self.view insertSubview:_tableView belowSubview:_toolbar];
   
   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(_reset)];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(_done)];
   
-  NSArray *toolBarButtons = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil], [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(_export)]];
-  [_toolbar setItems:toolBarButtons animated:NO];
+  if ([MFMailComposeViewController canSendMail]) {
+    _exportButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(_export)];
+    NSArray *toolBarButtons = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil], _exportButton];
+    [_toolbar setItems:toolBarButtons animated:NO];
+  }
 }
 
 - (void)dealloc
@@ -141,11 +144,14 @@
   [mailComposeViewController setMessageBody:body isHTML:NO];
   
   [self presentViewController:mailComposeViewController animated:YES completion:nil];
+  
+  [_exportButton setEnabled:NO];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
   [self dismissViewControllerAnimated:YES completion:nil];
+  [_exportButton setEnabled:YES];
 }
 
 @end
