@@ -82,7 +82,11 @@
      for (FBTweakCollection *collection in category.tweakCollections) {
        NSMutableDictionary *tweakDictionary = [NSMutableDictionary new];
        for (FBTweak *tweak in collection.tweaks) {
-         [tweakDictionary setValue:tweak.currentValue forKey:tweak.name];
+         if (tweak.currentValue) {
+           [tweakDictionary setValue:tweak.currentValue forKey:tweak.name];
+         } else {
+           [tweakDictionary setValue:tweak.defaultValue forKey:tweak.name];
+         }
        }
        [collectionDictionary setValue:tweakDictionary forKey:collection.name];
      }

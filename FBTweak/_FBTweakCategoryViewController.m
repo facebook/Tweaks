@@ -136,7 +136,10 @@
   
   NSString *subject = [NSString stringWithFormat:@"%@ Tweaks",appName];
   NSString *body = [NSString stringWithFormat:@"%@ \n%@", appName, version];
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:storeDictionary];
+  NSData *data = [NSPropertyListSerialization dataWithPropertyList:storeDictionary
+                                                            format:NSPropertyListXMLFormat_v1_0
+                                                           options:0
+                                                             error:nil];
   
   NSString *fileName = [NSString stringWithFormat:@"%@_tweaks.plist", appName];
   [mailComposeViewController addAttachmentData:data mimeType:@"plist" fileName:fileName];
