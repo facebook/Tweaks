@@ -7,6 +7,8 @@
  of patent rights can be found in the PATENTS file in the same directory.
  */
 
+#import "FBTweak.h"
+#import "FBTweakCollection.h"
 #import "FBTweakStore.h"
 #import "FBTweakCategory.h"
 #import "_FBTweakCategoryViewController.h"
@@ -39,7 +41,13 @@
   _tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
   [self.view addSubview:_tableView];
   
-  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(_reset)];
+    
+  UIBarButtonItem *resetItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(_reset)];
+    
+  UIBarButtonItem *diffItem = [[UIBarButtonItem alloc] initWithTitle:@"Diff" style:UIBarButtonItemStylePlain target:self action:@selector(_copyDiffrences)];
+    
+  self.navigationItem.leftBarButtonItems = @[resetItem, diffItem];
+
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(_done)];
 }
 
@@ -57,6 +65,44 @@
 - (void)_reset
 {
   [_store reset];
+}
+
+- (void)_copyDiffrences {
+    
+
+    NSMutableArray *resultArray = [NSMutableArray arrayWithCapacity:0];
+    
+    for (FBTweakCategory *category in _store.tweakCategories) {
+        for (FBTweakCollection *collection in category.tweakCollections) {
+            for (FBTweak *tweak in collection.tweaks) {
+                
+                if (!tweak.currentValue) {
+                    break;
+                }
+
+                if ([tweak.currentValue compare:tweak.defaultValue] != NSOrderedSame) {
+                    NSDictionary *tweakInfo = @{@"currentValue":tweak.currentValue,
+                                                @"defaultValue":tweak.defaultValue,
+                                                @"tweakName": tweak.name,
+                                                @"tweakCollectionName": collection.name,
+                                                @"tweakCatigoryname": category.name};
+                    [resultArray addObject:tweakInfo];
+                }
+            }
+        }
+    }
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:resultArray options:NSJSONWritingPrettyPrinted error:nil];
+    if ([resultArray count] > 0) {
+        [[UIPasteboard generalPasteboard] setPersistent:YES];
+        [[UIPasteboard generalPasteboard] setString:[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]];
+
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"diffrence of between defualt value and current value is copied!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"There is no difference." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
