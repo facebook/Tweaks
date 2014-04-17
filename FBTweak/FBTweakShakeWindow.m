@@ -20,13 +20,17 @@ static CFTimeInterval _FBTweakShakeWindowMinTimeInterval = 0.4;
 
 - (void)_presentTweaks
 {
-  UIViewController *rootViewController = self.rootViewController;
+  UIViewController *visibleViewController = self.rootViewController;
+  
+  while (visibleViewController.presentedViewController) {
+    visibleViewController = visibleViewController.presentedViewController;
+  }
   
   // Prevent double-presenting the tweaks view controller.
-  if (![rootViewController.presentedViewController isKindOfClass:[FBTweakViewController class]]) {
+  if (![visibleViewController isKindOfClass:[FBTweakViewController class]]) {
     FBTweakStore *store = [FBTweakStore sharedInstance];
     FBTweakViewController *viewController = [[FBTweakViewController alloc] initWithStore:store];
-    [rootViewController presentViewController:viewController animated:YES completion:NULL];
+    [visibleViewController presentViewController:viewController animated:YES completion:NULL];
   }
 }
 
