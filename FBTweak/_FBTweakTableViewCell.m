@@ -248,7 +248,12 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
   if (_mode == _FBTweakTableViewCellModeString) {
     [self _updateValue:_textField.text primary:NO write:YES];
   } else {
-    NSNumber *number = @([_textField.text doubleValue]);
+    NSNumber *number;
+    if(_mode == _FBTweakTableViewCellModeInteger)
+      number = @([_textField.text longLongValue]);
+    else
+      number = @([_textField.text doubleValue]);
+
     [self _updateValue:number primary:NO write:YES];
   }
 }

@@ -21,6 +21,11 @@
 
 @implementation FBTweakInlineTestsARC
 
+- (void)setUp
+{
+    [[FBTweakStore sharedInstance] reset];
+}
+
 - (void)testValueTypes
 {
   __attribute__((unused)) short testShort = FBTweakValue(@"Short", @"Short", @"Short", -1);
@@ -62,7 +67,7 @@
   
   static const double staticConstInput = 1.0;
   double staticConstValue = FBTweakValue(@"Static", @"Static", @"Static", staticConstInput);
-  XCTAssertEqual(staticConstValue, staticConstInput, @"Static %f %f", staticInput, staticConstValue);
+  XCTAssertEqual(staticConstValue, staticConstInput, @"Static %f %f", staticConstInput, staticConstValue);
 }
 
 // All values should be converted to the same type as the default.
