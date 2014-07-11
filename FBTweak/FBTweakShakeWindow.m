@@ -7,6 +7,7 @@
  of patent rights can be found in the PATENTS file in the same directory.
  */
 
+#import "FBTweakConstants.h"
 #import "FBTweakEnabled.h"
 #import "FBTweakStore.h"
 #import "FBTweakShakeWindow.h"
@@ -21,6 +22,7 @@ static CFTimeInterval _FBTweakShakeWindowMinTimeInterval = 0.4;
 
 - (void)tweakViewControllerPressedDone:(FBTweakViewController *)tweakViewController
 {
+  [[NSNotificationCenter defaultCenter] postNotificationName:FB_TWEAK_DISMISS_NOTIFICATION object:tweakViewController];
   [tweakViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
