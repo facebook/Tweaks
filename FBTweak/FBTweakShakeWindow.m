@@ -38,10 +38,6 @@ static CFTimeInterval _FBTweakShakeWindowMinTimeInterval = 0.4;
     FBTweakViewController *viewController = [[FBTweakViewController alloc] initWithStore:store];
     viewController.tweaksDelegate = self;
     [visibleViewController presentViewController:viewController animated:YES completion:^{
-#if TARGET_IPHONE_SIMULATOR
-     self-> _shaking = NO;
-#endif
-
       self->_shaking = NO;
     }];
   }
@@ -50,9 +46,11 @@ static CFTimeInterval _FBTweakShakeWindowMinTimeInterval = 0.4;
 - (BOOL)_shouldPresentTweaks
 {
 #if FB_TWEAK_ENABLED
+ #if TARGET_IPHONE_SIMULATOR
+    return YES;
+ #else
     return _shaking && [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
-#elif TARGET_IPHONE_SIMULATOR
-  return YES;
+  #endif
 #else
   return NO;
 #endif
