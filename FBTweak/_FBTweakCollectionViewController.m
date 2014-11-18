@@ -123,4 +123,10 @@
   return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  _FBTweakTableViewCell *cell = (_FBTweakTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+  [cell delegateCellSelected];
+}
+
 @end
