@@ -26,4 +26,13 @@
 //! @abstract The tweak to show in the cell.
 @property (nonatomic, strong, readwrite) FBTweak *tweak;
 
+/**
+  @abstract Action callback that is called from table views when a cell is selected by user.
+  @discussion Using -setSelected:animated: method to detect when cells are selected isn't reliable,
+  since -setSelected:animated: is called twice unexpectedly on iPad (possibly due to Apple's implementation).
+  It has to be workarounded by using -tableView:didSelectRowAtIndexPath: to detect user selections
+  then message it to cells.
+ */
+- (void)delegateCellSelected;
+
 @end
