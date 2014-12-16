@@ -70,7 +70,10 @@
 
 - (FBTweakCategory *)selectedCategory
 {
-    return _sortedCategories[[self.outlineView selectedRow]];
+    if ([self.outlineView selectedRow] >= 0) {
+        return _sortedCategories[[self.outlineView selectedRow]];
+    }
+    return nil;
 }
 
 - (void)viewDidAppear
