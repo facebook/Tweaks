@@ -26,7 +26,7 @@
   if ((self = [super init])) {
     _tweakCategory = category;
     self.title = _tweakCategory.name;
-    
+
     _sortedCollections = [_tweakCategory.tweakCollections sortedArrayUsingComparator:^(FBTweakCollection *a, FBTweakCollection *b) {
       return [a.name localizedStandardCompare:b.name];
     }];
@@ -85,9 +85,7 @@
     }
   }
   
-  
   [_delegate tweakCollectionViewControllerSelectedDone:self];
-  
 }
 
 - (void)_keyboardFrameChanged:(NSNotification *)notification
@@ -131,7 +129,7 @@
   return collection.name;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   FBTweakCollection *collection = _sortedCollections[indexPath.section];
   FBTweak *tweak = collection.tweaks[indexPath.row];
@@ -143,7 +141,7 @@
   }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   // Reload table view to change height.
   [tableView beginUpdates];
@@ -153,7 +151,7 @@
   [cell setSelected:YES];
 }
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   // Reload table view to change height.
   [tableView beginUpdates];

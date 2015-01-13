@@ -64,11 +64,11 @@
 {
   // NSBlock isn't a public class, walk the hierarchy for it.
   Class blockClass = [^{} class];
-  
+
   while ([blockClass superclass] != [NSObject class]) {
     blockClass = [blockClass superclass];
   }
-  
+
   return [_defaultValue isKindOfClass:blockClass];
 }
 
@@ -120,49 +120,49 @@
 
 @implementation FBTweak (Dictionary)
 
--(BOOL)isDictionaryTweak
+- (BOOL)isDictionaryTweak
 {
   return self.keyValues;
 }
 
--(void)setKeyValues:(NSDictionary *)keyValues
+- (void)setKeyValues:(NSDictionary *)keyValues
 {
   self.minimumValue = keyValues;
 }
 
--(NSDictionary *)keyValues
+- (NSDictionary *)keyValues
 {
   return [self.minimumValue isKindOfClass:[NSDictionary class]] ? self.minimumValue: nil;
 }
 
--(NSArray *)allKeys
+- (NSArray *)allKeys
 {
   return [(NSDictionary *)self.keyValues allKeys];
 }
 
--(NSArray *)allValues
+- (NSArray *)allValues
 {
   return [(NSDictionary *)self.keyValues allValues];
 }
 
--(void)setCurrentKey:(FBTweakValue)currentKey
+- (void)setCurrentKey:(FBTweakValue)currentKey
 {
   FBTweakValue value = self.keyValues[currentKey];
   
   [self setCurrentValue:value];
 }
 
--(FBTweakValue)currentKey
+- (FBTweakValue)currentKey
 {
   return [self.keyValues allKeysForObject:self.currentValue].firstObject;
 }
 
--(FBTweakValue)defaultKey
+- (FBTweakValue)defaultKey
 {
   return [self.keyValues allKeysForObject:self.defaultValue].firstObject;
 }
 
--(void)setDefaultKey:(FBTweakValue)defaultKey
+- (void)setDefaultKey:(FBTweakValue)defaultKey
 {
   FBTweakValue value = self.keyValues[defaultKey];
   
