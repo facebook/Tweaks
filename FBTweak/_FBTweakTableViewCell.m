@@ -17,9 +17,12 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
   _FBTweakTableViewCellModeReal,
   _FBTweakTableViewCellModeString,
   _FBTweakTableViewCellModeAction,
+  _FBTweakTableViewCellModeDictionary,
 };
 
-@interface _FBTweakTableViewCell () <UITextFieldDelegate>
+@interface _FBTweakTableViewCell () <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, FBTweakObserver>
+@property (strong, nonatomic) NSArray *sortedKeys;
+@property (strong, nonatomic) NSArray *keysWithValues;
 @end
 
 @implementation _FBTweakTableViewCell {
@@ -29,6 +32,52 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
   UISwitch *_switch;
   UITextField *_textField;
   UIStepper *_stepper;
+  UIPickerView *_picker;
+  UIView *_pickerBG;
+}
+
+- (NSArray *)sortedKeys
+{
+  if (!_sortedKeys && self.tweak.isDictionaryTweak) {
+    NSArray *sortedKeys = [self.tweak.keyValues.allKeys sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES]]];
+    
+    // Add each value as "Key (value)"
+    NSMutableArray *keysWithValues = @[].mutableCopy;
+    
+    for (id key in sortedKeys) {
+      
+      id editedKey = key;
+      if ([key isKindOfClass:[NSString class]]) {
+        editedKey = [NSString stringWithFormat:@"%@ (%@)", key, self.tweak.keyValues[key]];
+      }
+      
+      [keysWithValues addObject:editedKey];
+    }
+    
+    _sortedKeys = sortedKeys;
+    
+    _keysWithValues = keysWithValues;
+  }
+  
+  return _sortedKeys;
+}
+
+- (void)setSelected:(BOOL)selected
+{
+  [super setSelected:selected];
+  
+  if (_mode == _FBTweakTableViewCellModeDictionary) {
+    if (selected && !_picker) {
+      [self showPickerView];
+    } else if (!selected && _picker) {
+      [self hidePickerView];
+    }
+  }
+  
+  if (_textField.isFirstResponder && !selected) {
+    [_textField resignFirstResponder];
+  }
+  
 }
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier;
@@ -79,7 +128,8 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
     
     CGRect accessoryFrame = CGRectUnion(stepperFrame, textFrame);
     _accessoryView.bounds = CGRectIntegral(accessoryFrame);
-  } else if (_mode == _FBTweakTableViewCellModeString) {
+  } else if (_mode == _FBTweakTableViewCellModeString ||
+             (_mode == _FBTweakTableViewCellModeDictionary && !self.isSelected)) {
     CGFloat margin = CGRectGetMinX(self.textLabel.frame);
     CGFloat textFieldWidth = self.bounds.size.width - (margin * 3.0) - [self.textLabel sizeThatFits:CGSizeZero].width;
     CGRect textBounds = CGRectMake(0, 0, textFieldWidth, self.bounds.size.height);
@@ -105,7 +155,9 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
     FBTweakValue value = (_tweak.currentValue ?: _tweak.defaultValue);
 
     _FBTweakTableViewCellMode mode = _FBTweakTableViewCellModeNone;
-    if ([value isKindOfClass:[NSString class]]) {
+    if (tweak.isDictionaryTweak) {
+      mode = _FBTweakTableViewCellModeDictionary;
+    } else if ([value isKindOfClass:[NSString class]]) {
       mode = _FBTweakTableViewCellModeString;
     } else if ([value isKindOfClass:[NSNumber class]]) {
       // In the 64-bit runtime, BOOL is a real boolean.
@@ -125,6 +177,8 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
     
     [self _updateMode:mode];
     [self _updateValue:value primary:YES write:NO];
+    
+    [tweak addObserver:self];
   }
 }
 
@@ -167,14 +221,14 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
     _textField.hidden = NO;
     _textField.keyboardType = UIKeyboardTypeDecimalPad;
     _stepper.hidden = NO;
-      
+
     if (_tweak.stepValue) {
       _stepper.stepValue = [_tweak.stepValue floatValue];
     } else {
       _stepper.stepValue = 1.0;
     }
-      
-    if (_tweak.minimumValue != nil) {
+
+    if (_tweak.minimumValue != nil && !self.tweak.isDictionaryTweak) {
       _stepper.minimumValue = [_tweak.minimumValue doubleValue];
     } else if ([_tweak.defaultValue doubleValue] == 0) {
       _stepper.minimumValue = -1;
@@ -193,7 +247,8 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
     if (!_tweak.stepValue) {
       _stepper.stepValue = fminf(1.0, (_stepper.maximumValue - _stepper.minimumValue) / 100.0);
     }
-  } else if (_mode == _FBTweakTableViewCellModeString) {
+  } else if (_mode == _FBTweakTableViewCellModeString ||
+             _mode == _FBTweakTableViewCellModeDictionary) {
     _switch.hidden = YES;
     _textField.hidden = NO;
     _textField.keyboardType = UIKeyboardTypeDefault;
@@ -211,7 +266,7 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
     _textField.hidden = YES;
     _stepper.hidden = YES;
   }
-  
+
   [self setNeedsLayout];
   [self layoutIfNeeded];
 }
@@ -239,8 +294,15 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
   [self _updateValue:@(_switch.on) primary:NO write:YES];
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+  [self setSelected:YES];
+  return YES;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+  [self setSelected:NO];
   [_textField resignFirstResponder];
   return YES;
 }
@@ -300,10 +362,108 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
     if (_tweak.precisionValue) {
       precision = [[_tweak precisionValue] longValue];
     }
-      
+    
     NSString *format = [NSString stringWithFormat:@"%%.%ldf", precision];
     _textField.text = [NSString stringWithFormat:format, [value doubleValue]];
+  } else if (_mode == _FBTweakTableViewCellModeDictionary) {
+    
+    if (self.isSelected) {
+      // Change the picker's seleceted item
+      id key = self.tweak.currentKey ?: self.tweak.defaultKey;
+      
+      NSInteger idx = [self.sortedKeys indexOfObject:key];
+      [_picker selectRow:idx inComponent:0 animated:YES];
+    } else {
+      // Change the label
+      NSString    *key = self.tweak.currentKey ?: self.tweak.defaultKey;
+      FBTweakValue val = self.tweak.currentValue ?: self.tweak.defaultValue;
+      
+      _textField.text = [NSString stringWithFormat:@"%@ (%@)", key, val];
+      [_textField setEnabled:NO];
+    }
   }
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+  return self.sortedKeys.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+  return self.keysWithValues[row];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+  return 1;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+  id key = self.sortedKeys[row];
+  
+  FBTweakValue value = self.tweak.keyValues[key];
+  
+  [self _updateValue:value primary:NO write:YES];
+}
+
+- (void)showPickerView
+{
+  _picker = [[UIPickerView alloc] init];
+  _picker.delegate   = self;
+  _picker.dataSource = self;
+  _picker.alpha = 0.f;
+  _picker.opaque = YES;
+  
+  [self.tableView addSubview:_picker];
+  [_picker sizeToFit];
+  _picker.center = self.center;
+  
+  _pickerBG = [[UIView alloc] initWithFrame:_picker.frame];
+  _pickerBG.opaque = YES;
+  _pickerBG.backgroundColor = [UIColor whiteColor];
+  _pickerBG.alpha = 0.f;
+  [self.tableView insertSubview:_pickerBG belowSubview:_picker];
+  
+  [UIView animateWithDuration:0.25f animations:^{
+    _picker.alpha = 1.f;
+    _pickerBG.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [self _updateValue:self.tweak.currentValue primary:YES write:NO];
+  }];
+}
+
+- (void)hidePickerView
+{
+  [self _updateValue:self.tweak.currentValue primary:YES write:YES];
+  
+  [UIView animateWithDuration:0.25f animations:^{
+    _picker.alpha = 0.f;
+    _pickerBG.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [_picker removeFromSuperview];
+    [_pickerBG removeFromSuperview];
+    
+    _picker = nil;
+    _pickerBG = nil;
+  }];
+}
+
+- (UITableView *)tableView
+{
+  UIView *superView = self.superview;
+  while (![superView isKindOfClass:[UITableView class]] && superView) {
+    superView = superView.superview;
+  }
+  
+  return (UITableView *)superView;
+}
+
+- (void)tweakDidChange:(FBTweak *)tweak
+{
+  FBTweakValue value = tweak.currentValue;
+  [self _updateValue:value primary:YES write:NO];
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "FBTweakCategory.h"
 #import "_FBTweakCollectionViewController.h"
 #import "_FBTweakTableViewCell.h"
+#import "FBTweak.h"
 
 @interface _FBTweakCollectionViewController () <UITableViewDelegate, UITableViewDataSource>
 @end
@@ -64,6 +65,26 @@
 
 - (void)_done
 {
+  NSIndexPath *path = [_tableView indexPathForSelectedRow];
+  
+  _FBTweakTableViewCell *cell = (_FBTweakTableViewCell *)[_tableView cellForRowAtIndexPath:path];
+  
+  if (cell.tweak.isDictionaryTweak && cell.isSelected) {
+    [_tableView deselectRowAtIndexPath:path animated:YES];
+    [self tableView:_tableView didDeselectRowAtIndexPath:path];
+    
+    return;
+  }
+  
+  NSArray *visibleCells = [_tableView visibleCells];
+  
+  for (_FBTweakTableViewCell *cell in visibleCells) {
+    if (cell.isSelected && !cell.tweak.isDictionaryTweak) {
+      [cell setSelected:NO];
+      return;
+    }
+  }
+  
   [_delegate tweakCollectionViewControllerSelectedDone:self];
 }
 
@@ -106,6 +127,38 @@
 {
   FBTweakCollection *collection = _sortedCollections[section];
   return collection.name;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  FBTweakCollection *collection = _sortedCollections[indexPath.section];
+  FBTweak *tweak = collection.tweaks[indexPath.row];
+  
+  if ([tweak isDictionaryTweak] && [[tableView indexPathForSelectedRow] isEqual:indexPath]) {
+    return 216;
+  } else {
+    return [tableView rowHeight];
+  }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  // Reload table view to change height.
+  [tableView beginUpdates];
+  [tableView endUpdates];
+  
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  [cell setSelected:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  // Reload table view to change height.
+  [tableView beginUpdates];
+  [tableView endUpdates];
+  
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  [cell setSelected:NO];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

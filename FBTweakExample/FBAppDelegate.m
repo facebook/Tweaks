@@ -85,6 +85,9 @@ FBTweakAction(@"Actions", @"Global", @"Hello", ^{
     [alert show];
   });
 
+  NSDictionary *dict = @{@"Key 1": @"Value 1", @"Key 2": @"Value 2", @"Key 3": @"Value 3"};
+  id val = FBDictionaryTweak(@"Content", @"Animation", @"Dictionary test", dict, @"Key 1");
+    
   return YES;
 }
 
