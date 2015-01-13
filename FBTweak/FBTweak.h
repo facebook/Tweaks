@@ -118,3 +118,48 @@ typedef id FBTweakValue;
 - (void)tweakDidChange:(FBTweak *)tweak;
 
 @end
+
+
+/**
+ @abstract Provides key-value capabilities tweak.
+ @discussion A key-value tweak offers key-value mapping of all possible cominations, using the keyValues property.
+ Each possible value is mapped to its display name.
+ 
+ The dictionary is stored internally in the minimum value property.
+ */
+@interface FBTweak (Dictionary)
+
+@property (nonatomic, readonly) BOOL isDictionaryTweak;
+
+/**
+ @abstract Returns all possible keys (human-readable names).
+ @note Values in this array are in no specific order, and they are NOT guaranteed to be in the same order of allValues.
+ */
+@property (strong, nonatomic, readonly) NSArray *allKeys;
+
+/**
+ @abstract Returns all possible value.
+ @note Values in this array are in no specific order, and they are NOT guaranteed to be in the same order of allKeys.
+ */
+@property (strong, nonatomic, readonly) NSArray *allValues;
+
+/**
+ @abstact All possible keys and values for the tweak.
+ */
+@property (strong, nonatomic) NSDictionary *keyValues;
+
+/**
+ @abstract The key (human-readable name) of the tweak's current value.
+ */
+@property (strong, nonatomic) FBTweakValue currentKey;
+
+/**
+ @abstract The key (human-readable name) of the tweak's default value.
+ @note Changing this property changes defualtValue accordingly.
+ */
+@property (strong, nonatomic) FBTweakValue defaultKey;
+
+@end
+
+FBTweakValue FBDictionaryTweak(NSString *category, NSString *collection, NSString *name, NSDictionary *keyValues, id defaultKey);
+
