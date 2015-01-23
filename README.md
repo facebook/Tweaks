@@ -1,5 +1,5 @@
 # Tweaks
-Tweaks is an easy way to fine-tune an iOS app.
+Tweaks is an easy way to fine-tune an iOS or OS X app.
 
 ![Tweaks](https://github.com/facebook/Tweaks/blob/master/Images/Tweaks.gif?raw=true)
 
