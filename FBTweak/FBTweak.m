@@ -8,6 +8,9 @@
  */
 
 #import "FBTweak.h"
+#import "FBTweakStore.h"
+#import "FBTweakCollection.h"
+#import "FBTweakCategory.h"
 
 @implementation FBTweak {
   NSHashTable *_observers;
@@ -61,24 +64,29 @@
 {
   // NSBlock isn't a public class, walk the hierarchy for it.
   Class blockClass = [^{} class];
-
+  
   while ([blockClass superclass] != [NSObject class]) {
     blockClass = [blockClass superclass];
   }
-
+  
   return [_defaultValue isKindOfClass:blockClass];
 }
 
 - (void)setCurrentValue:(FBTweakValue)currentValue
 {
   NSAssert(!self.isAction, @"actions cannot have non-default values");
-
-  if (_minimumValue != nil && currentValue != nil && [_minimumValue compare:currentValue] == NSOrderedDescending) {
-    currentValue = _minimumValue;
-  }
-  
-  if (_maximumValue != nil && currentValue != nil && [_maximumValue compare:currentValue] == NSOrderedAscending) {
-    currentValue = _maximumValue;
+  if (self.isDictionaryTweak) {
+    _currentValue = currentValue;
+  } else {
+    
+    if (_minimumValue != nil && currentValue != nil && [_minimumValue compare:currentValue] == NSOrderedDescending) {
+      currentValue = _minimumValue;
+    }
+    
+    if (_maximumValue != nil && currentValue != nil && [_maximumValue compare:currentValue] == NSOrderedAscending) {
+      currentValue = _maximumValue;
+    }
+    
   }
   
   if (_currentValue != currentValue) {
@@ -108,3 +116,89 @@
 }
 
 @end
+
+
+@implementation FBTweak (Dictionary)
+
+-(BOOL)isDictionaryTweak
+{
+  return self.keyValues;
+}
+
+-(void)setKeyValues:(NSDictionary *)keyValues
+{
+  self.minimumValue = keyValues;
+}
+
+-(NSDictionary *)keyValues
+{
+  return [self.minimumValue isKindOfClass:[NSDictionary class]] ? self.minimumValue: nil;
+}
+
+-(NSArray *)allKeys
+{
+  return [(NSDictionary *)self.keyValues allKeys];
+}
+
+-(NSArray *)allValues
+{
+  return [(NSDictionary *)self.keyValues allValues];
+}
+
+-(void)setCurrentKey:(FBTweakValue)currentKey
+{
+  FBTweakValue value = self.keyValues[currentKey];
+  
+  [self setCurrentValue:value];
+}
+
+-(FBTweakValue)currentKey
+{
+  return [self.keyValues allKeysForObject:self.currentValue].firstObject;
+}
+
+-(FBTweakValue)defaultKey
+{
+  return [self.keyValues allKeysForObject:self.defaultValue].firstObject;
+}
+
+-(void)setDefaultKey:(FBTweakValue)defaultKey
+{
+  FBTweakValue value = self.keyValues[defaultKey];
+  
+  [self setDefaultValue:value];
+}
+@end
+
+FBTweakValue FBDictionaryTweak(NSString *category, NSString *collection, NSString *name, NSDictionary *keyValues, id defaultKey)
+{
+  FBTweakStore *store = [FBTweakStore sharedInstance];
+  FBTweakCategory *cat = [store tweakCategoryWithName:category];
+  
+  if (!cat) {
+    cat = [[FBTweakCategory alloc] initWithName:category];
+    [store addTweakCategory:cat];
+  }
+  
+  FBTweakCollection *col = [cat tweakCollectionWithName:collection];
+  
+  if (!col) {
+    col = [[FBTweakCollection alloc] initWithName:collection];
+    [cat addTweakCollection:col];
+  }
+  
+  
+  FBTweak *tweak = [col tweakWithIdentifier:name];
+  
+  if (!tweak) {
+    tweak = [[FBTweak alloc] initWithIdentifier:name];
+    tweak.name = name;
+    tweak.keyValues = keyValues;
+    tweak.defaultKey = defaultKey;
+    
+    [col addTweak:tweak];
+  }
+  
+  return tweak.currentValue ?: tweak.defaultValue;
+}
+
