@@ -93,41 +93,42 @@ static FBTweak *_FBTweakCreateWithEntry(NSString *identifier, fb_tweak_entry *en
 #endif
   
   FBTweakStore *store = [FBTweakStore sharedInstance];
-  
-  Dl_info info;
-  dladdr(&_FBTweakIdentifier, &info);
-  
-  const fb_tweak_value mach_header = (fb_tweak_value)info.dli_fbase;
 
-  unsigned long size;
-  fb_tweak_entry *data = (fb_tweak_entry *) getsectiondata((const fb_tweak_header *) mach_header, FBTweakSegmentName, FBTweakSectionName, &size);
-  if (data == NULL) {
-    return ;
-  }
-  size_t count = size / sizeof(fb_tweak_entry);
-  for (size_t i = 0; i < count; i++) {
-    fb_tweak_entry *entry = &data[i];
-    FBTweakCategory *category = [store tweakCategoryWithName:*entry->category];
-    if (category == nil) {
-      category = [[FBTweakCategory alloc] initWithName:*entry->category];
-      [store addTweakCategory:category];
-    }
-    
-    FBTweakCollection *collection = [category tweakCollectionWithName:*entry->collection];
-    if (collection == nil) {
-      collection = [[FBTweakCollection alloc] initWithName:*entry->collection];
-      [category addTweakCollection:collection];
-    }
-    
-    NSString *identifier = _FBTweakIdentifier(entry);
-    if ([collection tweakWithIdentifier:identifier] == nil) {
-      FBTweak *tweak = _FBTweakCreateWithEntry(identifier, entry);
+  // Look in all loaded images for tweaks
+  uint32_t count = _dyld_image_count();
+  for (uint32_t i = 0; i<count; i++) {
+    const fb_tweak_header *mach_header = (const fb_tweak_header *)_dyld_get_image_header(i);
 
-      if (tweak != nil) {
-        [collection addTweak:tweak];
+    unsigned long size;
+    fb_tweak_entry *data = (fb_tweak_entry *) getsectiondata(mach_header, FBTweakSegmentName, FBTweakSectionName, &size);
+    if (data != NULL) {
+      size_t count = size / sizeof(fb_tweak_entry);
+      for (size_t i = 0; i < count; i++) {
+        fb_tweak_entry *entry = &data[i];
+        FBTweakCategory *category = [store tweakCategoryWithName:*entry->category];
+        if (category == nil) {
+          category = [[FBTweakCategory alloc] initWithName:*entry->category];
+          [store addTweakCategory:category];
+        }
+
+        FBTweakCollection *collection = [category tweakCollectionWithName:*entry->collection];
+        if (collection == nil) {
+          collection = [[FBTweakCollection alloc] initWithName:*entry->collection];
+          [category addTweakCollection:collection];
+        }
+
+        NSString *identifier = _FBTweakIdentifier(entry);
+        if ([collection tweakWithIdentifier:identifier] == nil) {
+          FBTweak *tweak = _FBTweakCreateWithEntry(identifier, entry);
+
+          if (tweak != nil) {
+            [collection addTweak:tweak];
+          }
+        }
       }
     }
   }
+
 }
 
 @end
