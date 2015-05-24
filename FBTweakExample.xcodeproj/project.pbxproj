@@ -16,6 +16,11 @@
 		18EFE4FE189F02F800DA6A5D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18EFE4FD189F02F800DA6A5D /* Images.xcassets */; };
 		18EFE524189F04B000DA6A5D /* libFBTweak.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EFE523189F04B000DA6A5D /* libFBTweak.a */; };
 		29E9F17D18E35D2B001EAF7D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E9F17C18E35D2B001EAF7D /* MessageUI.framework */; };
+		994AB40D1B100617000CA12D /* FBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 994AB40C1B100617000CA12D /* FBAppDelegate.m */; };
+		994AB40F1B100617000CA12D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 994AB40E1B100617000CA12D /* main.m */; };
+		994AB4111B100617000CA12D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 994AB4101B100617000CA12D /* Images.xcassets */; };
+		994AB4141B100617000CA12D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 994AB4121B100617000CA12D /* MainMenu.xib */; };
+		994AB4301B100B10000CA12D /* FBTweak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 994AB42F1B100B10000CA12D /* FBTweak.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +38,16 @@
 		18EFE504189F02F800DA6A5D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		18EFE523189F04B000DA6A5D /* libFBTweak.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBTweak.a; path = "../FBTweak/build/Debug-iphoneos/libFBTweak.a"; sourceTree = "<group>"; };
 		29E9F17C18E35D2B001EAF7D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		994AB4071B100617000CA12D /* FBTweakExampleMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FBTweakExampleMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		994AB40A1B100617000CA12D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		994AB40B1B100617000CA12D /* FBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FBAppDelegate.h; sourceTree = "<group>"; };
+		994AB40C1B100617000CA12D /* FBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FBAppDelegate.m; sourceTree = "<group>"; };
+		994AB40E1B100617000CA12D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		994AB4101B100617000CA12D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		994AB4131B100617000CA12D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		994AB4271B10064B000CA12D /* FBTweakMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBTweakMac.framework; path = build/Debug/FBTweakMac.framework; sourceTree = "<group>"; };
+		994AB42B1B1007A8000CA12D /* FBTweak.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBTweak.framework; path = build/Debug/FBTweak.framework; sourceTree = "<group>"; };
+		994AB42F1B100B10000CA12D /* FBTweak.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBTweak.framework; path = build/Debug/FBTweak.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +63,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		994AB4041B100617000CA12D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				994AB4301B100B10000CA12D /* FBTweak.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -55,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				18EFE4F1189F02F800DA6A5D /* FBTweakExample */,
+				994AB4081B100617000CA12D /* FBTweakExampleMac */,
 				18EFE4EA189F02F800DA6A5D /* Frameworks */,
 				18EFE4E9189F02F800DA6A5D /* Products */,
 			);
@@ -64,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				18EFE4E8189F02F800DA6A5D /* FBTweakExample.app */,
+				994AB4071B100617000CA12D /* FBTweakExampleMac.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -71,6 +96,9 @@
 		18EFE4EA189F02F800DA6A5D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				994AB42F1B100B10000CA12D /* FBTweak.framework */,
+				994AB42B1B1007A8000CA12D /* FBTweak.framework */,
+				994AB4271B10064B000CA12D /* FBTweakMac.framework */,
 				29E9F17C18E35D2B001EAF7D /* MessageUI.framework */,
 				18EFE523189F04B000DA6A5D /* libFBTweak.a */,
 				18EFE4EB189F02F800DA6A5D /* Foundation.framework */,
@@ -103,6 +131,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		994AB4081B100617000CA12D /* FBTweakExampleMac */ = {
+			isa = PBXGroup;
+			children = (
+				994AB40B1B100617000CA12D /* FBAppDelegate.h */,
+				994AB40C1B100617000CA12D /* FBAppDelegate.m */,
+				994AB4101B100617000CA12D /* Images.xcassets */,
+				994AB4121B100617000CA12D /* MainMenu.xib */,
+				994AB4091B100617000CA12D /* Supporting Files */,
+			);
+			path = FBTweakExampleMac;
+			sourceTree = "<group>";
+		};
+		994AB4091B100617000CA12D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				994AB40A1B100617000CA12D /* Info.plist */,
+				994AB40E1B100617000CA12D /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -123,6 +172,23 @@
 			productReference = 18EFE4E8189F02F800DA6A5D /* FBTweakExample.app */;
 			productType = "com.apple.product-type.application";
 		};
+		994AB4061B100617000CA12D /* FBTweakExampleMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 994AB4251B100617000CA12D /* Build configuration list for PBXNativeTarget "FBTweakExampleMac" */;
+			buildPhases = (
+				994AB4031B100617000CA12D /* Sources */,
+				994AB4041B100617000CA12D /* Frameworks */,
+				994AB4051B100617000CA12D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FBTweakExampleMac;
+			productName = FBTweakExampleMac;
+			productReference = 994AB4071B100617000CA12D /* FBTweakExampleMac.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -132,6 +198,11 @@
 				CLASSPREFIX = FB;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Facebook;
+				TargetAttributes = {
+					994AB4061B100617000CA12D = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+				};
 			};
 			buildConfigurationList = 18EFE4E3189F02F800DA6A5D /* Build configuration list for PBXProject "FBTweakExample" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -139,6 +210,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 18EFE4DF189F02F800DA6A5D;
 			productRefGroup = 18EFE4E9189F02F800DA6A5D /* Products */;
@@ -146,6 +218,7 @@
 			projectRoot = "";
 			targets = (
 				18EFE4E7189F02F800DA6A5D /* FBTweakExample */,
+				994AB4061B100617000CA12D /* FBTweakExampleMac */,
 			);
 		};
 /* End PBXProject section */
@@ -157,6 +230,15 @@
 			files = (
 				18EFE4F6189F02F800DA6A5D /* InfoPlist.strings in Resources */,
 				18EFE4FE189F02F800DA6A5D /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		994AB4051B100617000CA12D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				994AB4111B100617000CA12D /* Images.xcassets in Resources */,
+				994AB4141B100617000CA12D /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +254,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		994AB4031B100617000CA12D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				994AB40F1B100617000CA12D /* main.m in Sources */,
+				994AB40D1B100617000CA12D /* FBAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -181,6 +272,14 @@
 				18EFE4F5189F02F800DA6A5D /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		994AB4121B100617000CA12D /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				994AB4131B100617000CA12D /* Base */,
+			);
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -221,6 +320,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(SYMROOT)/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -259,6 +359,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(SYMROOT)/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -294,6 +395,71 @@
 			};
 			name = Release;
 		};
+		994AB4211B100617000CA12D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+					"$(PROJECT_DIR)/build/Debug",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(BUILT_PRODUCTS_DIR)/../Headers/Mac",
+				);
+				INFOPLIST_FILE = FBTweakExampleMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		994AB4221B100617000CA12D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+					"$(PROJECT_DIR)/build/Debug",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(BUILT_PRODUCTS_DIR)/../Headers/Mac",
+				);
+				INFOPLIST_FILE = FBTweakExampleMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -314,6 +480,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		994AB4251B100617000CA12D /* Build configuration list for PBXNativeTarget "FBTweakExampleMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				994AB4211B100617000CA12D /* Debug */,
+				994AB4221B100617000CA12D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
