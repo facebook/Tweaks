@@ -77,6 +77,7 @@ extern HSL _FBRGB2HSL(RGB rgb);
  @return The rgb color values
  */
 extern RGB _FBHSL2RGB(HSL hsl);
+/**
   @abstract Returns the rgb values of the color components.
   @param color The color value.
   @return The values of the color components (including alpha).
