@@ -12,8 +12,10 @@
 CGFloat const _FBRGBColorComponentMaxValue = 255.0f;
 CGFloat const _FBAlphaComponentMaxValue = 100.0f;
 CGFloat const _FBHSBColorComponentMaxValue = 1.0f;
+CGFloat const _FBHSLColorComponentMaxValue = 1.0f;
 NSUInteger const _FBRGBAColorComponentsSize = 4;
 NSUInteger const _FBHSBAColorComponentsSize = 4;
+NSUInteger const _FBHSLAColorComponentsSize = 4;
 
 extern HSB _FBRGB2HSB(RGB rgb)
 {
@@ -65,6 +67,103 @@ extern RGB _FBHSB2RGB(HSB hsb)
   return (RGB){.red = r, .green = g, .blue = b, .alpha = hsb.alpha};
 }
 
+extern HSL _FBRGB2HSL(RGB rgb)
+{
+  double r_percent = rgb.red;
+  double g_percent = rgb.green;
+  double b_percent = rgb.blue;
+  
+  double max_color = 0;
+  if((r_percent >= g_percent) && (r_percent >= b_percent))
+    max_color = r_percent;
+  if((g_percent >= r_percent) && (g_percent >= b_percent))
+    max_color = g_percent;
+  if((b_percent >= r_percent) && (b_percent >= g_percent))
+    max_color = b_percent;
+  
+  double min_color = 0;
+  if((r_percent <= g_percent) && (r_percent <= b_percent))
+    min_color = r_percent;
+  if((g_percent <= r_percent) && (g_percent <= b_percent))
+    min_color = g_percent;
+  if((b_percent <= r_percent) && (b_percent <= g_percent))
+    min_color = b_percent;
+  
+  double L = 0;
+  double S = 0;
+  double H = 0;
+  
+  L = (max_color + min_color)/2;
+  
+  if(max_color == min_color)
+  {
+    S = 0;
+    H = 0;
+  }
+  else
+  {
+    if(L < .50)
+      S = (max_color - min_color)/(max_color + min_color);
+    else
+      S = (max_color - min_color)/(2 - max_color - min_color);
+    if(max_color == r_percent)
+      H = (g_percent - b_percent)/(max_color - min_color);
+    if(max_color == g_percent)
+      H = 2 + (b_percent - r_percent)/(max_color - min_color);
+    if(max_color == b_percent)
+      H = 4 + (r_percent - g_percent)/(max_color - min_color);
+  }
+  S = (uint)(S*100);
+  L = (uint)(L*100);
+  H = H*60;
+  if(H < 0)
+    H += 360;
+  H = (uint)H;
+  
+  return (HSL){.hue = H, .saturation = S, .lightness = L, .alpha = rgb.alpha};
+}
+
+extern RGB _FBHSL2RGB(HSL hsl)
+{
+  double v;
+  double r,g,b;
+  
+  double h = hsl.hue / 360.0;
+  double sl = hsl.saturation / 100.0;
+  double l = hsl.lightness / 100.0;
+  
+  r = hsl.lightness;
+  g = hsl.lightness;
+  b = hsl.lightness;
+  v = (l <= 0.5) ? (l * (1.0 + sl)) : (l + sl - l * sl);
+  if (v > 0)
+  {
+    double m;
+    double sv;
+    int sextant;
+    double fract, vsf, mid1, mid2;
+    
+    m = l + l - v;
+    sv = (v - m ) / v;
+    h *= 6.0;
+    sextant = (int)h;
+    fract = h - sextant;
+    vsf = v * sv * fract;
+    mid1 = m + vsf;
+    mid2 = v - vsf;
+    switch (sextant)
+    {
+      case 0: r = v; g = mid1; b = m; break;
+      case 1: r = mid2; g = v; b = m; break;
+      case 2: r = m; g = v; b = mid1; break;
+      case 3: r = m; g = mid2; b = v; break;
+      case 4: r = mid1; g = m; b = v; break;
+      case 5: r = v; g = m; b = mid2; break;
+    }
+  }
+  
+  return (RGB){.red = (r * 255.0f), .green = (g * 255.0f), .blue = (b * 255.0f), .alpha = hsl.alpha};
+}
 extern RGB _FBRGBColorComponents(UIColor *color)
 {
   RGB result;
