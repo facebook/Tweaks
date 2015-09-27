@@ -10,6 +10,7 @@
 #import "_FBTweakColorViewController.h"
 #import "_FBTweakColorViewControllerHSBDataSource.h"
 #import "_FBTweakColorViewControllerRGBDataSource.h"
+#import "_FBTweakColorViewControllerHSLDataSource.h"
 #import "_FBKeyboardManager.h"
 #import "FBTweak.h"
 
@@ -24,6 +25,7 @@ static CGFloat const _FBColorWheelCellHeight = 220.0f;
 @implementation _FBTweakColorViewController {
   NSObject<_FBTweakColorViewControllerDataSource> *_rgbDataSource;
   NSObject<_FBTweakColorViewControllerDataSource> *_hsbDataSource;
+  NSObject<_FBTweakColorViewControllerDataSource> *_hslDataSource;
   FBTweak *_tweak;
   _FBKeyboardManager *_keyboardManager;
   UITableView *_tableView;
@@ -36,8 +38,10 @@ static CGFloat const _FBColorWheelCellHeight = 220.0f;
     _tweak = tweak;
     _rgbDataSource = [[_FBTweakColorViewControllerRGBDataSource alloc] init];
     _hsbDataSource = [[_FBTweakColorViewControllerHSBDataSource alloc] init];
+    _hslDataSource = [[_FBTweakColorViewControllerHSLDataSource alloc] init];
     [_rgbDataSource addObserver:self forKeyPath:NSStringFromSelector(@selector(value)) options:NSKeyValueObservingOptionNew context:kContext];
     [_hsbDataSource addObserver:self forKeyPath:NSStringFromSelector(@selector(value)) options:NSKeyValueObservingOptionNew context:kContext];
+    [_hslDataSource addObserver:self forKeyPath:NSStringFromSelector(@selector(value)) options:NSKeyValueObservingOptionNew context:kContext];
   }
   return self;
 }
@@ -46,6 +50,7 @@ static CGFloat const _FBColorWheelCellHeight = 220.0f;
 {
   [_rgbDataSource removeObserver:self forKeyPath:NSStringFromSelector(@selector(value))];
   [_hsbDataSource removeObserver:self forKeyPath:NSStringFromSelector(@selector(value))];
+  [_hslDataSource removeObserver:self forKeyPath:NSStringFromSelector(@selector(value))];
 }
 
 - (void)viewDidLoad
@@ -59,7 +64,7 @@ static CGFloat const _FBColorWheelCellHeight = 220.0f;
 
   _keyboardManager = [[_FBKeyboardManager alloc] initWithViewScrollView:_tableView];
 
-  UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"RGB", @"HSB"]];
+  UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"RGB", @"HSB", @"HSL"]];
   [segmentedControl addTarget:self action:@selector(_segmentControlDidChangeValue:) forControlEvents:UIControlEventValueChanged];
   [segmentedControl sizeToFit];
   self.navigationItem.titleView = segmentedControl;
@@ -108,7 +113,21 @@ static CGFloat const _FBColorWheelCellHeight = 220.0f;
 
 - (void)_segmentControlDidChangeValue:(UISegmentedControl *)sender
 {
-  NSObject<_FBTweakColorViewControllerDataSource> *dataSource = sender.selectedSegmentIndex == 0 ? _rgbDataSource : _hsbDataSource;
+  NSObject<_FBTweakColorViewControllerDataSource> *dataSource;
+  switch (sender.selectedSegmentIndex) {
+    case 0:
+      dataSource = _rgbDataSource;
+      break;
+    case 1:
+      dataSource = _hsbDataSource;
+      break;
+    case 2:
+      dataSource = _hslDataSource;
+      break;
+      
+    default:
+      break;
+  }
   dataSource.value = [self _colorValue];
   _tableView.dataSource = dataSource;
   [_tableView reloadData];
