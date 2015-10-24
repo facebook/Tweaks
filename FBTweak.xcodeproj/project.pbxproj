@@ -40,6 +40,51 @@
 		18EFE52D189F250700DA6A5D /* FBTweakInlineTestsMRR.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE52C189F250700DA6A5D /* FBTweakInlineTestsMRR.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		18EFE536189F38D500DA6A5D /* FBTweakEnabled.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE535189F38D500DA6A5D /* FBTweakEnabled.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		29E9F17B18E35C9C001EAF7D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E9F17A18E35C9C001EAF7D /* MessageUI.framework */; };
+		4A21A2FF1BDBF2B7005235F2 /* Tweaks.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A21A2FE1BDBF2B7005235F2 /* Tweaks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3041BDBF2E2005235F2 /* FBTweakInline.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4A8189EBAAD00DA6A5D /* FBTweakInline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3051BDBF2E2005235F2 /* FBTweakInlineInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4CF189EC70300DA6A5D /* FBTweakInlineInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3061BDBF2EC005235F2 /* FBTweak.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4B5189EBC3100DA6A5D /* FBTweak.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3071BDBF2F2005235F2 /* FBTweak.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4B6189EBC3100DA6A5D /* FBTweak.m */; };
+		4A21A3081BDBF2F2005235F2 /* FBTweakCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4BA189EBC4B00DA6A5D /* FBTweakCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3091BDBF2F2005235F2 /* FBTweakCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4BB189EBC4B00DA6A5D /* FBTweakCollection.m */; };
+		4A21A30A1BDBF2F2005235F2 /* FBTweakCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE525189F19B300DA6A5D /* FBTweakCategory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A30B1BDBF2F2005235F2 /* FBTweakCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE526189F19B300DA6A5D /* FBTweakCategory.m */; };
+		4A21A30C1BDBF2F2005235F2 /* FBTweakStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4BF189EBEAD00DA6A5D /* FBTweakStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A30D1BDBF2F2005235F2 /* FBTweakStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4C0189EBEAD00DA6A5D /* FBTweakStore.m */; };
+		4A21A30F1BDBF2F5005235F2 /* _FBTweakBindObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 184A94EE18D26871005F2774 /* _FBTweakBindObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3101BDBF2F5005235F2 /* _FBTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 184A94EF18D26871005F2774 /* _FBTweakBindObserver.m */; };
+		4A21A3111BDBF2FC005235F2 /* FBTweakShakeWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4AC189EBABA00DA6A5D /* FBTweakShakeWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3121BDBF2FC005235F2 /* FBTweakShakeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4AD189EBABA00DA6A5D /* FBTweakShakeWindow.m */; };
+		4A21A3131BDBF2FC005235F2 /* FBTweakViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4A4189EBA9E00DA6A5D /* FBTweakViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3141BDBF2FC005235F2 /* FBTweakViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4A5189EBA9E00DA6A5D /* FBTweakViewController.m */; };
+		4A21A3151BDBF2FC005235F2 /* _FBTweakCategoryViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4D3189EEBC500DA6A5D /* _FBTweakCategoryViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3161BDBF2FC005235F2 /* _FBTweakCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4D4189EEBC500DA6A5D /* _FBTweakCategoryViewController.m */; };
+		4A21A3171BDBF2FC005235F2 /* _FBTweakCollectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4D7189EEED800DA6A5D /* _FBTweakCollectionViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3181BDBF2FC005235F2 /* _FBTweakCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4D8189EEED800DA6A5D /* _FBTweakCollectionViewController.m */; };
+		4A21A3191BDBF2FC005235F2 /* _FBTweakTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4DB189EF75800DA6A5D /* _FBTweakTableViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A31A1BDBF2FC005235F2 /* _FBTweakTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4DC189EF75800DA6A5D /* _FBTweakTableViewCell.m */; };
+		4A21A31B1BDBF2FC005235F2 /* _FBTweakDictionaryViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BE25A501A0AA9D500C97C3E /* _FBTweakDictionaryViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A31C1BDBF2FC005235F2 /* _FBTweakDictionaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE25A511A0AA9D500C97C3E /* _FBTweakDictionaryViewController.m */; };
+		4A21A31D1BDBF2FC005235F2 /* _FBTweakArrayViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BACB31C1A12813C00C4F79D /* _FBTweakArrayViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A31E1BDBF2FC005235F2 /* _FBTweakArrayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BACB31D1A12813C00C4F79D /* _FBTweakArrayViewController.m */; };
+		4A21A31F1BDBF2FC005235F2 /* _FBTweakColorViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA9A2E71911968D0071AB23 /* _FBTweakColorViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3201BDBF2FC005235F2 /* _FBTweakColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA9A2E81911968D0071AB23 /* _FBTweakColorViewController.m */; };
+		4A21A3211BDBF2FC005235F2 /* _FBTweakColorViewControllerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E66FDD41B80EB6D007464F3 /* _FBTweakColorViewControllerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3221BDBF2FC005235F2 /* _FBTweakColorViewControllerRGBDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E66FDD01B80E4C1007464F3 /* _FBTweakColorViewControllerRGBDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3231BDBF2FC005235F2 /* _FBTweakColorViewControllerRGBDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E66FDD11B80E4C1007464F3 /* _FBTweakColorViewControllerRGBDataSource.m */; };
+		4A21A3241BDBF2FC005235F2 /* _FBTweakColorViewControllerHSBDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E66FDD61B80ECDA007464F3 /* _FBTweakColorViewControllerHSBDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3251BDBF2FC005235F2 /* _FBTweakColorViewControllerHSBDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E66FDD71B80ECDA007464F3 /* _FBTweakColorViewControllerHSBDataSource.m */; };
+		4A21A3261BDBF2FC005235F2 /* _FBColorComponentCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E66FDCB1B80C309007464F3 /* _FBColorComponentCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3271BDBF2FC005235F2 /* _FBColorComponentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E66FDCC1B80C309007464F3 /* _FBColorComponentCell.m */; };
+		4A21A3281BDBF2FC005235F2 /* _FBColorWheelCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E66FDDA1B80FA78007464F3 /* _FBColorWheelCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3291BDBF2FC005235F2 /* _FBColorWheelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E66FDDB1B80FA78007464F3 /* _FBColorWheelCell.m */; };
+		4A21A32B1BDBF2FC005235F2 /* _FBSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1708C41905B89800402135 /* _FBSliderView.m */; };
+		4A21A32C1BDBF2FC005235F2 /* _FBKeyboardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E1708DB190B147000402135 /* _FBKeyboardManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A32D1BDBF2FC005235F2 /* _FBKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1708DC190B147000402135 /* _FBKeyboardManager.m */; };
+		4A21A32E1BDBF2FF005235F2 /* _FBColorUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E1F48E91901E4D500D7C4A2 /* _FBColorUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A32F1BDBF2FF005235F2 /* _FBColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1F48EA1901E4D500D7C4A2 /* _FBColorUtils.m */; };
+		4A21A3321BDBFC91005235F2 /* FBTweakEnabled.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EFE535189F38D500DA6A5D /* FBTweakEnabled.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A21A3331BDBFDB7005235F2 /* FBTweakInline.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE4A9189EBAAD00DA6A5D /* FBTweakInline.m */; };
 		5BACB31E1A12813C00C4F79D /* _FBTweakArrayViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BACB31C1A12813C00C4F79D /* _FBTweakArrayViewController.h */; };
 		5BACB31F1A12813C00C4F79D /* _FBTweakArrayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BACB31D1A12813C00C4F79D /* _FBTweakArrayViewController.m */; };
 		5BE25A521A0AA9D500C97C3E /* _FBTweakDictionaryViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BE25A501A0AA9D500C97C3E /* _FBTweakDictionaryViewController.h */; };
@@ -111,6 +156,9 @@
 		18EFE52C189F250700DA6A5D /* FBTweakInlineTestsMRR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBTweakInlineTestsMRR.m; sourceTree = "<group>"; };
 		18EFE535189F38D500DA6A5D /* FBTweakEnabled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBTweakEnabled.h; sourceTree = "<group>"; };
 		29E9F17A18E35C9C001EAF7D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		4A21A2FC1BDBF2B7005235F2 /* Tweaks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tweaks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A21A2FE1BDBF2B7005235F2 /* Tweaks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tweaks.h; sourceTree = "<group>"; };
+		4A21A3001BDBF2B7005235F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BACB31C1A12813C00C4F79D /* _FBTweakArrayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _FBTweakArrayViewController.h; sourceTree = "<group>"; };
 		5BACB31D1A12813C00C4F79D /* _FBTweakArrayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _FBTweakArrayViewController.m; sourceTree = "<group>"; };
 		5BE25A501A0AA9D500C97C3E /* _FBTweakDictionaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _FBTweakDictionaryViewController.h; sourceTree = "<group>"; };
@@ -157,6 +205,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4A21A2F81BDBF2B7005235F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -165,6 +220,7 @@
 			children = (
 				18EFE473189EBA4900DA6A5D /* FBTweak */,
 				18EFE487189EBA4900DA6A5D /* FBTweakTests */,
+				4A21A2FD1BDBF2B7005235F2 /* Tweak */,
 				18EFE470189EBA4900DA6A5D /* Frameworks */,
 				18EFE46F189EBA4900DA6A5D /* Products */,
 			);
@@ -175,6 +231,7 @@
 			children = (
 				18EFE46E189EBA4900DA6A5D /* libFBTweak.a */,
 				18EFE47E189EBA4900DA6A5D /* FBTweakTests.xctest */,
+				4A21A2FC1BDBF2B7005235F2 /* Tweaks.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -294,6 +351,15 @@
 			name = Inline;
 			sourceTree = "<group>";
 		};
+		4A21A2FD1BDBF2B7005235F2 /* Tweak */ = {
+			isa = PBXGroup;
+			children = (
+				4A21A2FE1BDBF2B7005235F2 /* Tweaks.h */,
+				4A21A3001BDBF2B7005235F2 /* Info.plist */,
+			);
+			path = Tweak;
+			sourceTree = "<group>";
+		};
 		5E8F532B1B83CA760002F73F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +403,37 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4A21A2F91BDBF2B7005235F2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A21A2FF1BDBF2B7005235F2 /* Tweaks.h in Headers */,
+				4A21A30C1BDBF2F2005235F2 /* FBTweakStore.h in Headers */,
+				4A21A3111BDBF2FC005235F2 /* FBTweakShakeWindow.h in Headers */,
+				4A21A30A1BDBF2F2005235F2 /* FBTweakCategory.h in Headers */,
+				4A21A3081BDBF2F2005235F2 /* FBTweakCollection.h in Headers */,
+				4A21A3131BDBF2FC005235F2 /* FBTweakViewController.h in Headers */,
+				4A21A31B1BDBF2FC005235F2 /* _FBTweakDictionaryViewController.h in Headers */,
+				4A21A3261BDBF2FC005235F2 /* _FBColorComponentCell.h in Headers */,
+				4A21A3151BDBF2FC005235F2 /* _FBTweakCategoryViewController.h in Headers */,
+				4A21A31F1BDBF2FC005235F2 /* _FBTweakColorViewController.h in Headers */,
+				4A21A3191BDBF2FC005235F2 /* _FBTweakTableViewCell.h in Headers */,
+				4A21A3171BDBF2FC005235F2 /* _FBTweakCollectionViewController.h in Headers */,
+				4A21A32E1BDBF2FF005235F2 /* _FBColorUtils.h in Headers */,
+				4A21A3321BDBFC91005235F2 /* FBTweakEnabled.h in Headers */,
+				4A21A3211BDBF2FC005235F2 /* _FBTweakColorViewControllerDataSource.h in Headers */,
+				4A21A30F1BDBF2F5005235F2 /* _FBTweakBindObserver.h in Headers */,
+				4A21A3221BDBF2FC005235F2 /* _FBTweakColorViewControllerRGBDataSource.h in Headers */,
+				4A21A32C1BDBF2FC005235F2 /* _FBKeyboardManager.h in Headers */,
+				4A21A3241BDBF2FC005235F2 /* _FBTweakColorViewControllerHSBDataSource.h in Headers */,
+				4A21A3281BDBF2FC005235F2 /* _FBColorWheelCell.h in Headers */,
+				4A21A31D1BDBF2FC005235F2 /* _FBTweakArrayViewController.h in Headers */,
+				4A21A3051BDBF2E2005235F2 /* FBTweakInlineInternal.h in Headers */,
+				4A21A3041BDBF2E2005235F2 /* FBTweakInline.h in Headers */,
+				4A21A3061BDBF2EC005235F2 /* FBTweak.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -375,14 +472,37 @@
 			productReference = 18EFE47E189EBA4900DA6A5D /* FBTweakTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		4A21A2FB1BDBF2B7005235F2 /* Tweaks */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A21A3031BDBF2B7005235F2 /* Build configuration list for PBXNativeTarget "Tweaks" */;
+			buildPhases = (
+				4A21A2F71BDBF2B7005235F2 /* Sources */,
+				4A21A2F81BDBF2B7005235F2 /* Frameworks */,
+				4A21A2F91BDBF2B7005235F2 /* Headers */,
+				4A21A2FA1BDBF2B7005235F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tweaks;
+			productName = Tweak;
+			productReference = 4A21A2FC1BDBF2B7005235F2 /* Tweaks.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		18EFE466189EBA4900DA6A5D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = Facebook;
+				TargetAttributes = {
+					4A21A2FB1BDBF2B7005235F2 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+				};
 			};
 			buildConfigurationList = 18EFE469189EBA4900DA6A5D /* Build configuration list for PBXProject "FBTweak" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -398,6 +518,7 @@
 			targets = (
 				18EFE46D189EBA4900DA6A5D /* FBTweak */,
 				18EFE47D189EBA4900DA6A5D /* FBTweakTests */,
+				4A21A2FB1BDBF2B7005235F2 /* Tweaks */,
 			);
 		};
 /* End PBXProject section */
@@ -408,6 +529,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				18EFE48C189EBA4900DA6A5D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4A21A2FA1BDBF2B7005235F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +580,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4A21A2F71BDBF2B7005235F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A21A31A1BDBF2FC005235F2 /* _FBTweakTableViewCell.m in Sources */,
+				4A21A31C1BDBF2FC005235F2 /* _FBTweakDictionaryViewController.m in Sources */,
+				4A21A3271BDBF2FC005235F2 /* _FBColorComponentCell.m in Sources */,
+				4A21A3161BDBF2FC005235F2 /* _FBTweakCategoryViewController.m in Sources */,
+				4A21A30B1BDBF2F2005235F2 /* FBTweakCategory.m in Sources */,
+				4A21A3121BDBF2FC005235F2 /* FBTweakShakeWindow.m in Sources */,
+				4A21A3201BDBF2FC005235F2 /* _FBTweakColorViewController.m in Sources */,
+				4A21A32B1BDBF2FC005235F2 /* _FBSliderView.m in Sources */,
+				4A21A3291BDBF2FC005235F2 /* _FBColorWheelCell.m in Sources */,
+				4A21A3101BDBF2F5005235F2 /* _FBTweakBindObserver.m in Sources */,
+				4A21A31E1BDBF2FC005235F2 /* _FBTweakArrayViewController.m in Sources */,
+				4A21A3231BDBF2FC005235F2 /* _FBTweakColorViewControllerRGBDataSource.m in Sources */,
+				4A21A32F1BDBF2FF005235F2 /* _FBColorUtils.m in Sources */,
+				4A21A3331BDBFDB7005235F2 /* FBTweakInline.m in Sources */,
+				4A21A3091BDBF2F2005235F2 /* FBTweakCollection.m in Sources */,
+				4A21A32D1BDBF2FC005235F2 /* _FBKeyboardManager.m in Sources */,
+				4A21A3141BDBF2FC005235F2 /* FBTweakViewController.m in Sources */,
+				4A21A3181BDBF2FC005235F2 /* _FBTweakCollectionViewController.m in Sources */,
+				4A21A30D1BDBF2F2005235F2 /* FBTweakStore.m in Sources */,
+				4A21A3251BDBF2FC005235F2 /* _FBTweakColorViewControllerHSBDataSource.m in Sources */,
+				4A21A3071BDBF2F2005235F2 /* FBTweak.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -491,6 +647,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -587,6 +744,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "FBTweakTests/FBTweakTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -603,8 +761,77 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FBTweak/FBTweak-Prefix.pch";
 				INFOPLIST_FILE = "FBTweakTests/FBTweakTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		4A21A3011BDBF2B7005235F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"FB_TWEAK_ENABLED=1",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = Tweak/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.facebook.Tweak;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4A21A3021BDBF2B7005235F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "FB_TWEAK_ENABLED=1";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = Tweak/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.facebook.Tweak;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -634,6 +861,15 @@
 			buildConfigurations = (
 				18EFE495189EBA4900DA6A5D /* Debug */,
 				18EFE496189EBA4900DA6A5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4A21A3031BDBF2B7005235F2 /* Build configuration list for PBXNativeTarget "Tweaks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A21A3011BDBF2B7005235F2 /* Debug */,
+				4A21A3021BDBF2B7005235F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
