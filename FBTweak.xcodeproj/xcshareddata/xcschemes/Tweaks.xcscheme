@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "18EFE46D189EBA4900DA6A5D"
-               BuildableName = "libFBTweak.a"
-               BlueprintName = "FBTweak"
-               ReferencedContainer = "container:FBTweak.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "18EFE47D189EBA4900DA6A5D"
-               BuildableName = "FBTweakTests.xctest"
-               BlueprintName = "FBTweakTests"
+               BlueprintIdentifier = "4A21A2FB1BDBF2B7005235F2"
+               BuildableName = "Tweaks.framework"
+               BlueprintName = "Tweaks"
                ReferencedContainer = "container:FBTweak.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,26 +28,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "18EFE47D189EBA4900DA6A5D"
-               BuildableName = "FBTweakTests.xctest"
-               BlueprintName = "FBTweakTests"
-               ReferencedContainer = "container:FBTweak.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "18EFE46D189EBA4900DA6A5D"
-            BuildableName = "libFBTweak.a"
-            BlueprintName = "FBTweak"
-            ReferencedContainer = "container:FBTweak.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -78,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "18EFE46D189EBA4900DA6A5D"
-            BuildableName = "libFBTweak.a"
-            BlueprintName = "FBTweak"
+            BlueprintIdentifier = "4A21A2FB1BDBF2B7005235F2"
+            BuildableName = "Tweaks.framework"
+            BlueprintName = "Tweaks"
             ReferencedContainer = "container:FBTweak.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -96,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "18EFE46D189EBA4900DA6A5D"
-            BuildableName = "libFBTweak.a"
-            BlueprintName = "FBTweak"
+            BlueprintIdentifier = "4A21A2FB1BDBF2B7005235F2"
+            BuildableName = "Tweaks.framework"
+            BlueprintName = "Tweaks"
             ReferencedContainer = "container:FBTweak.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
