@@ -183,7 +183,7 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
         _stepper.minimumValue = -1;
     }
     else {
-      _stepper.minimumValue = ([_tweak.defaultValue longLongValue]) * 10.0;
+      _stepper.minimumValue = ([_tweak.defaultValue longLongValue]) / 10.0;
     }
 
     if (_tweak.maximumValue != nil) {
