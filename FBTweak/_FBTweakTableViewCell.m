@@ -179,14 +179,20 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
 
     if (_tweak.minimumValue != nil) {
       _stepper.minimumValue = [_tweak.minimumValue longLongValue];
-    } else {
-      _stepper.minimumValue = [_tweak.defaultValue longLongValue] / 10.0;
+    } else if ([_tweak.defaultValue longLongValue] == 0) {
+        _stepper.minimumValue = -1;
+    }
+    else {
+      _stepper.minimumValue = ([_tweak.defaultValue longLongValue]) * 10.0;
     }
 
     if (_tweak.maximumValue != nil) {
       _stepper.maximumValue = [_tweak.maximumValue longLongValue];
-    } else {
-      _stepper.maximumValue = [_tweak.defaultValue longLongValue] * 10.0;
+    } else if ([_tweak.defaultValue longLongValue] == 0) {
+        _stepper.maximumValue = 1;
+    }
+    else {
+      _stepper.maximumValue = ([_tweak.defaultValue longLongValue]) * 10.0;
     }
   } else if (_mode == _FBTweakTableViewCellModeReal) {
     _switch.hidden = YES;
