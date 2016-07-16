@@ -107,8 +107,10 @@ tweak.name = @"Advanced Settings";
 tweak.defaultValue = @NO;
 
 FBTweakStore *store = [FBTweakStore sharedInstance];
-FBTweakCategory *category = [store tweakCategoryWithName:@"Settings"];
-FBTweakCollection *collection = [category tweakCollectionWithName:@"Enable"];
+FBTweakCategory *category = [[FBTweakCategory alloc] initWithName:@"Settings"];
+[store addTweakCategory:category];
+FBTweakCollection *collection = [[FBTweakCollection alloc] initWithName:@"Enable"];
+[category addTweakCollection:collection];
 [collection addTweak:tweak];
 
 [tweak addObserver:self];
