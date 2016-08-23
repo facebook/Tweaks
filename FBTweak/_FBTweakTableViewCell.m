@@ -265,22 +265,6 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
 
 #pragma mark - Actions
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-  [super setSelected:selected animated:animated];
-
-  if (_mode == _FBTweakTableViewCellModeAction) {
-    if (selected) {
-      [self setSelected:NO animated:YES];
-
-      dispatch_block_t block = _tweak.defaultValue;
-      if (block != NULL) {
-        block();
-      }
-    }
-  }
-}
-
 - (void)_switchChanged:(UISwitch *)switch_
 {
   [self _updateValue:@(_switch.on) primary:NO write:YES];

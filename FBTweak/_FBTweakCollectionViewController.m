@@ -132,6 +132,12 @@
   } else if ([tweak.defaultValue isKindOfClass:[UIColor class]]) {
     _FBTweakColorViewController *vc = [[_FBTweakColorViewController alloc] initWithTweak:tweak];
     [self.navigationController pushViewController:vc animated:YES];
+  } else if (tweak.isAction) {
+    dispatch_block_t block = tweak.defaultValue;
+    if (block != NULL) {
+        block();
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
   }
 }
 
