@@ -91,7 +91,18 @@ To configure your tweaks, you need a way to show the configuration UI. There's t
 ```
 
  - You can present a `FBTweakViewController` from anywhere in your app. Be sure to restrict the activation UI to debug builds!
- 
+ ```objective-c
+ - (void) showTweaks {
+    FBTweakViewController *tweakVC = [[FBTweakViewController alloc] initWithStore:[FBTweakStore sharedInstance]];
+    tweakVC.tweaksDelegate = self;
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:tweakVC animated:YES completion:nil];
+}
+
+- (void) tweakViewControllerPressedDone:(FBTweakViewController *)tweakViewController {
+    [tweakViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+```
+
 #### Tweaks UI Dismiss Notification
 
 Alternatively, when the Tweaks UI is dismissed, you can register your notification center to listen to `FBTweakShakeViewControllerDidDismissNotification`, which can be used after importing `FBTweakViewController.h` 
