@@ -77,7 +77,7 @@ Actions are useful for things like launching debug UIs, checking for updates, or
 ### Tweaks UI
 To configure your tweaks, you need a way to show the configuration UI. There's two options for that:
 
- - Traditionally, tweaks is activated by shaking your phone. To use that, just replace your root `UIx` with a `FBTweakShakeWindow`. If you're using Storyboards, you can override `-window` on your app delegate:
+ - Traditionally, tweaks is activated by shaking your phone. To use that, just replace your root `UIWindow` with a `FBTweakShakeWindow`. If you're using Storyboards, you can override `-window` on your app delegate:
 
 ```objective-c
 - (UIWindow *)window
