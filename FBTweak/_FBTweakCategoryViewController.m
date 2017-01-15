@@ -12,7 +12,7 @@
 #import "_FBTweakCategoryViewController.h"
 #import <MessageUI/MessageUI.h>
 
-@interface _FBTweakCategoryViewController () <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
+@interface _FBTweakCategoryViewController () <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
 @end
 
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE8_0) && (!defined(__has_feature) || !__has_feature(attribute_availability_app_extension))
@@ -23,8 +23,11 @@
 @implementation _FBTweakCategoryViewController {
   UITableView *_tableView;
   UIToolbar *_toolbar;
+  UISearchBar *_searchBar;
+  UISearchDisplayController *_searchController;
 
   NSArray *_sortedCategories;
+  NSArray *_filteredCategories;
 }
 
 - (instancetype)initWithStore:(FBTweakStore *)store
@@ -58,6 +61,15 @@
   _tableView.dataSource = self;
   _tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
   [self.view insertSubview:_tableView belowSubview:_toolbar];
+    
+  _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44)];
+  _searchBar.delegate = self;
+  _tableView.tableHeaderView = _searchBar;
+    
+  _searchController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
+  _searchController.delegate = self;
+  _searchController.searchResultsDelegate = self;
+  _searchController.searchResultsDataSource = self;
   
   UIEdgeInsets contentInset = _tableView.contentInset;
   UIEdgeInsets scrollIndictatorInsets = _tableView.scrollIndicatorInsets;
@@ -149,6 +161,23 @@
   [_tableView deselectRowAtIndexPath:_tableView.indexPathForSelectedRow animated:animated];
 }
 
+- (void)_filterCategoriesForQuery:(NSString*)query
+{
+  NSPredicate *filter = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", query];
+  _filteredCategories = [_sortedCategories filteredArrayUsingPredicate:filter];
+}
+
+- (NSArray*)_categoriesToDisplayInTableView:(UITableView*)tableView
+{
+  if (tableView == self.searchDisplayController.searchResultsTableView) {
+    return _filteredCategories;
+  } else {
+    return _sortedCategories;
+  }
+}
+
+#pragma mark UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
   return 1;
@@ -156,7 +185,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return _sortedCategories.count;
+  return [self _categoriesToDisplayInTableView:tableView].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -169,19 +198,24 @@
   
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-  FBTweakCategory *category = _sortedCategories[indexPath.row];
+  FBTweakCategory *category = [self _categoriesToDisplayInTableView:tableView][indexPath.row];
   cell.textLabel.text = category.name;
   
   return cell;
 }
 
+#pragma mark UITableViewDelegate
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  FBTweakCategory *category = _sortedCategories[indexPath.row];
+  FBTweakCategory *category = [self _categoriesToDisplayInTableView:tableView][indexPath.row];
   [_delegate tweakCategoryViewController:self selectedCategory:category];
 }
 
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE8_0) && (!defined(__has_feature) || !__has_feature(attribute_availability_app_extension))
+
+#pragma mark UIAlertViewDelegate
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
   if (buttonIndex != alertView.cancelButtonIndex) {
@@ -190,9 +224,26 @@
 }
 #endif
 
+#pragma mark MFMailComposeViewControllerDelegate
+
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
   [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark UISearchDisplayDelegate
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(nullable NSString *)searchString
+{
+  [self _filterCategoriesForQuery:searchString];
+  return YES;
+}
+
+#pragma mark UISearchBarDelegate
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+  return YES;
 }
 
 @end
