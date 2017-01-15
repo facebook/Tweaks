@@ -17,12 +17,16 @@
 #import "_FBTweakArrayViewController.h"
 #import "_FBKeyboardManager.h"
 
-@interface _FBTweakCollectionViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface _FBTweakCollectionViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>
 @end
 
 @implementation _FBTweakCollectionViewController {
   UITableView *_tableView;
+  UISearchBar *_searchBar;
+  UISearchDisplayController *_searchController;
+
   NSArray *_sortedCollections;
+  NSArray *_filteredCollections;
   _FBKeyboardManager *_keyboardManager;
 }
 
@@ -46,6 +50,15 @@
   _tableView.dataSource = self;
   _tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
   [self.view addSubview:_tableView];
+    
+  _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44)];
+  _searchBar.delegate = self;
+  _tableView.tableHeaderView = _searchBar;
+  
+  _searchController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
+  _searchController.delegate = self;
+  _searchController.searchResultsDelegate = self;
+  _searchController.searchResultsDataSource = self;
   
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(_done)];
 
@@ -87,20 +100,50 @@
   [_delegate tweakCollectionViewControllerSelectedDone:self];
 }
 
+- (void)_filterTweaksForQuery:(NSString*)query
+{
+  NSMutableArray *collections = [NSMutableArray arrayWithCapacity:_sortedCollections.count];
+  
+  NSPredicate *filter = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", query];
+  for (FBTweakCollection *collection in _sortedCollections) {
+    NSArray *filteredTweaks = [collection.tweaks filteredArrayUsingPredicate:filter];
+    if (filteredTweaks.count > 0) {
+      FBTweakCollection *filteredCollection = [[FBTweakCollection alloc] initWithName:collection.name];
+      for (FBTweak *tweak in filteredTweaks) {
+        [filteredCollection addTweak:tweak];
+      }
+      [collections addObject:filteredCollection];
+    }
+  }
+    
+  _filteredCollections = collections;
+}
+
+- (NSArray*)_collectionsToDisplayInTableView:(UITableView*)tableView
+{
+  if (tableView == self.searchDisplayController.searchResultsTableView) {
+    return _filteredCollections;
+  } else {
+    return _sortedCollections;
+  }
+}
+
+#pragma mark UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return _sortedCollections.count;
+  return [self _collectionsToDisplayInTableView:tableView].count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  FBTweakCollection *collection = _sortedCollections[section];
+  FBTweakCollection *collection = [self _collectionsToDisplayInTableView:tableView][section];
   return collection.tweaks.count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-  FBTweakCollection *collection = _sortedCollections[section];
+  FBTweakCollection *collection = [self _collectionsToDisplayInTableView:tableView][section];
   return collection.name;
 }
 
@@ -112,16 +155,18 @@
     cell = [[_FBTweakTableViewCell alloc] initWithReuseIdentifier:_FBTweakCollectionViewControllerCellIdentifier];
   }
   
-  FBTweakCollection *collection = _sortedCollections[indexPath.section];
+  FBTweakCollection *collection = [self _collectionsToDisplayInTableView:tableView][indexPath.section];
   FBTweak *tweak = collection.tweaks[indexPath.row];
   cell.tweak = tweak;
   
   return cell;
 }
 
+#pragma mark UITableViewDelegate
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  FBTweakCollection *collection = _sortedCollections[indexPath.section];
+  FBTweakCollection *collection = [self _collectionsToDisplayInTableView:tableView][indexPath.section];
   FBTweak *tweak = collection.tweaks[indexPath.row];
   if ([tweak.possibleValues isKindOfClass:[NSDictionary class]]) {
     _FBTweakDictionaryViewController *vc = [[_FBTweakDictionaryViewController alloc] initWithTweak:tweak];
@@ -139,6 +184,26 @@
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   }
+}
+
+#pragma mark UISearchDisplayDelegate
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
+  [self _reloadData];
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(nullable NSString *)searchString
+{
+  [self _filterTweaksForQuery:searchString];
+  return YES;
+}
+
+#pragma mark UISearchBarDelegate
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+  return YES;
 }
 
 @end
