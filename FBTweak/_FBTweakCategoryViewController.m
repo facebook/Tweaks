@@ -11,10 +11,8 @@
 #import "FBTweakCategory.h"
 #import "FBTweakCollection.h"
 #import "FBTweak.h"
+#import "_FBTweakSearchUtil.h"
 #import "_FBTweakCategoryViewController.h"
-#import "_FBTweakArrayViewController.h"
-#import "_FBTweakDictionaryViewController.h"
-#import "_FBTweakColorViewController.h"
 #import "_FBTweakTableViewCell.h"
 #import <MessageUI/MessageUI.h>
 
@@ -169,24 +167,7 @@
 
 - (void)_filterTweaksForQuery:(NSString*)query
 {
-  NSMutableArray *collections = [NSMutableArray array];
-
-  NSPredicate *filter = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", query];
-  for (FBTweakCategory *category in _sortedCategories) {
-    for (FBTweakCollection *collection in category.tweakCollections) {
-      NSArray *filteredTweaks = [collection.tweaks filteredArrayUsingPredicate:filter];
-      if (filteredTweaks.count > 0) {
-        NSString *name = [NSString stringWithFormat:@"%@ / %@", category.name, collection.name];
-        FBTweakCollection *filteredCollection = [[FBTweakCollection alloc] initWithName:name];
-        for (FBTweak *tweak in filteredTweaks) {
-          [filteredCollection addTweak:tweak];
-        }
-        [collections addObject:filteredCollection];
-      }
-    }
-  }
-    
-  _filteredCollections = collections;
+  _filteredCollections = [_FBTweakSearchUtil filteredCollectionsInCategories:_sortedCategories forQuery:query];
 }
 
 #pragma mark UITableViewDataSource
@@ -258,22 +239,7 @@
   if (tableView == self.searchDisplayController.searchResultsTableView) {
     FBTweakCollection *collection = _filteredCollections[indexPath.section];
     FBTweak *tweak = collection.tweaks[indexPath.row];
-    if ([tweak.possibleValues isKindOfClass:[NSDictionary class]]) {
-      _FBTweakDictionaryViewController *vc = [[_FBTweakDictionaryViewController alloc] initWithTweak:tweak];
-      [self.navigationController pushViewController:vc animated:YES];
-    } else if ([tweak.possibleValues isKindOfClass:[NSArray class]]) {
-      _FBTweakArrayViewController *vc = [[_FBTweakArrayViewController alloc] initWithTweak:tweak];
-      [self.navigationController pushViewController:vc animated:YES];
-    } else if ([tweak.defaultValue isKindOfClass:[UIColor class]]) {
-      _FBTweakColorViewController *vc = [[_FBTweakColorViewController alloc] initWithTweak:tweak];
-      [self.navigationController pushViewController:vc animated:YES];
-    } else if (tweak.isAction) {
-      dispatch_block_t block = tweak.defaultValue;
-      if (block != NULL) {
-        block();
-      }
-      [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
+    [_FBTweakSearchUtil handleTweakSelection:tweak inTableView:tableView atIndexPath:indexPath navigationController:self.navigationController];
   } else {
     FBTweakCategory *category =_sortedCategories[indexPath.row];
     [_delegate tweakCategoryViewController:self selectedCategory:category];

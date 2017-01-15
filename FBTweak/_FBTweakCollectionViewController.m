@@ -10,11 +10,9 @@
 #import "FBTweakCollection.h"
 #import "FBTweakCategory.h"
 #import "FBTweak.h"
+#import "_FBTweakSearchUtil.h"
 #import "_FBTweakCollectionViewController.h"
 #import "_FBTweakTableViewCell.h"
-#import "_FBTweakColorViewController.h"
-#import "_FBTweakDictionaryViewController.h"
-#import "_FBTweakArrayViewController.h"
 #import "_FBKeyboardManager.h"
 
 @interface _FBTweakCollectionViewController () <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>
@@ -102,21 +100,7 @@
 
 - (void)_filterTweaksForQuery:(NSString*)query
 {
-  NSMutableArray *collections = [NSMutableArray arrayWithCapacity:_sortedCollections.count];
-  
-  NSPredicate *filter = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", query];
-  for (FBTweakCollection *collection in _sortedCollections) {
-    NSArray *filteredTweaks = [collection.tweaks filteredArrayUsingPredicate:filter];
-    if (filteredTweaks.count > 0) {
-      FBTweakCollection *filteredCollection = [[FBTweakCollection alloc] initWithName:collection.name];
-      for (FBTweak *tweak in filteredTweaks) {
-        [filteredCollection addTweak:tweak];
-      }
-      [collections addObject:filteredCollection];
-    }
-  }
-    
-  _filteredCollections = collections;
+  _filteredCollections = [_FBTweakSearchUtil filteredCollectionsInCategories:@[self.tweakCategory] forQuery:query];
 }
 
 - (NSArray*)_collectionsToDisplayInTableView:(UITableView*)tableView
@@ -169,22 +153,7 @@
 {
   FBTweakCollection *collection = [self _collectionsToDisplayInTableView:tableView][indexPath.section];
   FBTweak *tweak = collection.tweaks[indexPath.row];
-  if ([tweak.possibleValues isKindOfClass:[NSDictionary class]]) {
-    _FBTweakDictionaryViewController *vc = [[_FBTweakDictionaryViewController alloc] initWithTweak:tweak];
-    [self.navigationController pushViewController:vc animated:YES];
-  } else if ([tweak.possibleValues isKindOfClass:[NSArray class]]) {
-    _FBTweakArrayViewController *vc = [[_FBTweakArrayViewController alloc] initWithTweak:tweak];
-    [self.navigationController pushViewController:vc animated:YES];
-  } else if ([tweak.defaultValue isKindOfClass:[UIColor class]]) {
-    _FBTweakColorViewController *vc = [[_FBTweakColorViewController alloc] initWithTweak:tweak];
-    [self.navigationController pushViewController:vc animated:YES];
-  } else if (tweak.isAction) {
-    dispatch_block_t block = tweak.defaultValue;
-    if (block != NULL) {
-        block();
-    }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-  }
+  [_FBTweakSearchUtil handleTweakSelection:tweak inTableView:tableView atIndexPath:indexPath navigationController:self.navigationController];
 }
 
 #pragma mark UISearchDisplayDelegate
