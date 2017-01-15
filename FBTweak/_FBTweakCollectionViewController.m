@@ -158,6 +158,7 @@
   FBTweakCollection *collection = [self _collectionsToDisplayInTableView:tableView][indexPath.section];
   FBTweak *tweak = collection.tweaks[indexPath.row];
   cell.tweak = tweak;
+  cell.searchQuery = _searchBar.text;
   
   return cell;
 }

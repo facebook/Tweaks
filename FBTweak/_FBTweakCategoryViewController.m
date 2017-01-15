@@ -222,6 +222,7 @@
     FBTweakCollection *collection = _filteredCollections[indexPath.section];
     FBTweak *tweak = collection.tweaks[indexPath.row];
     cell.tweak = tweak;
+    cell.searchQuery = _searchBar.text;
     
     return cell;
   } else {
