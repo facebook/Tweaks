@@ -12,9 +12,10 @@
 #import "FBTweakShakeWindow.h"
 #import "FBTweakViewController.h"
 #import "_FBKeyboardManager.h"
+#import <AVFoundation/AVFoundation.h>
 
 // Minimum shake time required to present tweaks on device.
-static CFTimeInterval _FBTweakShakeWindowMinTimeInterval = 0.4;
+static CFTimeInterval _FBTweakShakeWindowMinTimeInterval = 0.2;
 
 @implementation FBTweakShakeWindow {
   BOOL _shaking;
@@ -82,6 +83,7 @@ static void _FBTweakShakeWindowCommonInit(FBTweakShakeWindow *self)
     FBTweakStore *store = [FBTweakStore sharedInstance];
     FBTweakViewController *viewController = [[FBTweakViewController alloc] initWithStore:store];
     viewController.tweaksDelegate = self;
+	AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
     [visibleViewController presentViewController:viewController animated:YES completion:NULL];
   }
 }
