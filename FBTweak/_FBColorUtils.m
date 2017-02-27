@@ -71,6 +71,7 @@ extern RGB _FBRGBColorComponents(UIColor *color)
   RGB result;
   CGColorSpaceModel colorSpaceModel = CGColorSpaceGetModel(CGColorGetColorSpace(color.CGColor));
   if (colorSpaceModel != kCGColorSpaceModelRGB && colorSpaceModel != kCGColorSpaceModelMonochrome) {
+    result.red = result.green = result.blue = result.alpha = 0;
     return result;
   }
   const CGFloat *components = CGColorGetComponents(color.CGColor);
