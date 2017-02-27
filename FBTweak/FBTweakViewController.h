@@ -35,7 +35,7 @@ extern NSString *const FBTweakShakeViewControllerDidDismissNotification;
 /**
   @abstract Create a tweak view controller drilled-down to a specific category
   @param store The tweak store to show. Usually +[FBTweakStore sharedInstance].
-  @param name The tweak category to drill down to. Use nil to show all categories
+  @param categoryName The tweak category to drill down to. Use nil to show all categories
   @discussion The designated initializer.
  */
 - (instancetype)initWithStore:(FBTweakStore *)store category:(NSString *)categoryName;

@@ -74,7 +74,7 @@ typedef id FBTweakValue;
 
 /**
   @abstract If this tweak is an action, with a block value.
-  @param If YES, {@ref currentValue} should not be set and
+  @discussion If YES, {@ref currentValue} should not be set and
     {@ref defaultValue} is a block rather than a value object.
  */
 @property (nonatomic, readonly, assign, getter = isAction) BOOL action;
@@ -132,7 +132,7 @@ typedef id FBTweakValue;
 
 /**
   @abstract Adds an observer to the tweak.
-  @param object The observer. Must not be nil.
+  @param observer The observer. Must not be nil.
   @discussion A weak reference is taken on the observer.
  */
 - (void)addObserver:(id<FBTweakObserver>)observer;
