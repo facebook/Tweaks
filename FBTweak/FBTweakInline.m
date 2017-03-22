@@ -77,6 +77,13 @@ static FBTweak *_FBTweakCreateWithEntry(NSString *identifier, fb_tweak_entry *en
   return tweak;
 }
 
+// Only add the prob when we have address sanitizer on.
+#if __has_feature(address_sanitizer)
+#define FBTweakProbeSectionName "FBTweakProbe"
+// Insert a prob so that I can get the size of redzone for fb_tweak_entry in case address sanitizer is on.
+__attribute__((used)) __attribute__((section (FBTweakSegmentName "," FBTweakProbeSectionName))) static fb_tweak_entry size_probe = {};
+#endif
+
 @interface _FBTweakInlineLoader : NSObject
 @end
 
@@ -100,21 +107,38 @@ static FBTweak *_FBTweakCreateWithEntry(NSString *identifier, fb_tweak_entry *en
   typedef struct mach_header fb_tweak_header;
 #define fb_tweak_getsectbynamefromheader getsectbynamefromheader
 #endif
-  
+
   FBTweakStore *store = [FBTweakStore sharedInstance];
-  
+
   uint32_t image_count = _dyld_image_count();
+
+#if __has_feature(address_sanitizer)
+  size_t sizeof_tweak_entry = 0;
+  for (uint32_t image_index = 0; image_index < image_count; image_index++) {
+    const fb_tweak_header *mach_header = (const fb_tweak_header *)_dyld_get_image_header(image_index);
+    unsigned long size;
+    uint8_t *data = getsectiondata(mach_header, FBTweakSegmentName, FBTweakProbeSectionName, &size);
+    if (data != NULL) {
+      sizeof_tweak_entry = (size_t)size;
+      break;
+    }
+  }
+  if (!sizeof_tweak_entry) {
+    return;
+  }
+#else
+  const size_t sizeof_tweak_entry = sizeof(fb_tweak_entry);
+#endif
   for (uint32_t image_index = 0; image_index < image_count; image_index++) {
     const fb_tweak_header *mach_header = (const fb_tweak_header *)_dyld_get_image_header(image_index);
 
     unsigned long size;
-    fb_tweak_entry *data = (fb_tweak_entry *)getsectiondata(mach_header, FBTweakSegmentName, FBTweakSectionName, &size);
+    uint8_t *data = getsectiondata(mach_header, FBTweakSegmentName, FBTweakSectionName, &size);
     if (data == NULL) {
       continue;
     }
-    size_t count = size / sizeof(fb_tweak_entry);
-    for (size_t i = 0; i < count; i++) {
-      fb_tweak_entry *entry = &data[i];
+    for (uint8_t *addr = data; addr < data + size; addr += sizeof_tweak_entry) {
+      fb_tweak_entry *entry = (fb_tweak_entry *)addr;
       FBTweakCategory *category = [store tweakCategoryWithName:*entry->category];
       if (category == nil) {
         category = [[FBTweakCategory alloc] initWithName:*entry->category];
