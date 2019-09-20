@@ -89,7 +89,7 @@ static void _FBTweakShakeWindowCommonInit(FBTweakShakeWindow *self)
 - (BOOL)_shouldPresentTweaks
 {
 #if TARGET_IPHONE_SIMULATOR && FB_TWEAK_ENABLED
-  return YES;
+  return _shakeEnabled;
 #elif FB_TWEAK_ENABLED
   return _shakeEnabled && _shaking && _active;
 #else
