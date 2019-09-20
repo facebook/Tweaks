@@ -57,7 +57,7 @@
   NSTimeInterval duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
   UIViewAnimationCurve curve = [userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
 
-  void (^animations)() = ^{
+  void (^animations)(void) = ^{
     UIEdgeInsets contentInset = _scrollView.contentInset;
     contentInset.bottom = (contentView.bounds.size.height - CGRectGetMinY(endFrame));
     _scrollView.contentInset = contentInset;
