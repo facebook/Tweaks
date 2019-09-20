@@ -26,4 +26,7 @@
 //! @abstract The tweak to show in the cell.
 @property (nonatomic, strong, readwrite) FBTweak *tweak;
 
+//! @abstract Search phrase to highlight in title.
+@property (nonatomic, strong, readwrite) NSString *searchQuery;
+
 @end

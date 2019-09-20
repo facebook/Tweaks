@@ -27,6 +27,7 @@
 		18EFE528189F19B300DA6A5D /* FBTweakCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE526189F19B300DA6A5D /* FBTweakCategory.m */; };
 		18EFE52D189F250700DA6A5D /* FBTweakInlineTestsMRR.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFE52C189F250700DA6A5D /* FBTweakInlineTestsMRR.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		29E9F17B18E35C9C001EAF7D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E9F17A18E35C9C001EAF7D /* MessageUI.framework */; };
+		3A95D4611E2C2125003FEC4A /* _FBTweakSearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A95D4601E2C2125003FEC4A /* _FBTweakSearchUtil.m */; };
 		4F930D6C1C4C73F8007DC0E1 /* FBTweakEnabled.h in Copy Headers */ = {isa = PBXBuildFile; fileRef = 18EFE535189F38D500DA6A5D /* FBTweakEnabled.h */; };
 		4F930D6D1C4C7406007DC0E1 /* FBTweakInlineInternal.h in Copy Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4CF189EC70300DA6A5D /* FBTweakInlineInternal.h */; };
 		4F930D6E1C4C740F007DC0E1 /* FBTweakInline.h in Copy Headers */ = {isa = PBXBuildFile; fileRef = 18EFE4A8189EBAAD00DA6A5D /* FBTweakInline.h */; };
@@ -123,6 +124,8 @@
 		18EFE52C189F250700DA6A5D /* FBTweakInlineTestsMRR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBTweakInlineTestsMRR.m; sourceTree = "<group>"; };
 		18EFE535189F38D500DA6A5D /* FBTweakEnabled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBTweakEnabled.h; sourceTree = "<group>"; };
 		29E9F17A18E35C9C001EAF7D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		3A95D45F1E2C2125003FEC4A /* _FBTweakSearchUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _FBTweakSearchUtil.h; sourceTree = "<group>"; };
+		3A95D4601E2C2125003FEC4A /* _FBTweakSearchUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _FBTweakSearchUtil.m; sourceTree = "<group>"; };
 		5BACB31C1A12813C00C4F79D /* _FBTweakArrayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _FBTweakArrayViewController.h; sourceTree = "<group>"; };
 		5BACB31D1A12813C00C4F79D /* _FBTweakArrayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _FBTweakArrayViewController.m; sourceTree = "<group>"; };
 		5BE25A501A0AA9D500C97C3E /* _FBTweakDictionaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _FBTweakDictionaryViewController.h; sourceTree = "<group>"; };
@@ -294,6 +297,8 @@
 				5E1708C41905B89800402135 /* _FBSliderView.m */,
 				5E1708DB190B147000402135 /* _FBKeyboardManager.h */,
 				5E1708DC190B147000402135 /* _FBKeyboardManager.m */,
+				3A95D45F1E2C2125003FEC4A /* _FBTweakSearchUtil.h */,
+				3A95D4601E2C2125003FEC4A /* _FBTweakSearchUtil.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -408,6 +413,7 @@
 				18EFE4BD189EBC4B00DA6A5D /* FBTweakCollection.m in Sources */,
 				18EFE4C2189EBEAD00DA6A5D /* FBTweakStore.m in Sources */,
 				5E66FDD91B80ECDA007464F3 /* _FBTweakColorViewControllerHSBDataSource.m in Sources */,
+				3A95D4611E2C2125003FEC4A /* _FBTweakSearchUtil.m in Sources */,
 				18EFE4AB189EBAAD00DA6A5D /* FBTweakInline.m in Sources */,
 				18EFE4B8189EBC3100DA6A5D /* FBTweak.m in Sources */,
 				18EFE4DE189EF75800DA6A5D /* _FBTweakTableViewCell.m in Sources */,

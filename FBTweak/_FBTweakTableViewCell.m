@@ -153,6 +153,20 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
   [self _updateValue:value primary:YES write:NO];
 }
 
+- (void)setSearchQuery:(NSString *)searchQuery
+{
+  _searchQuery = searchQuery;
+  
+  if (searchQuery.length > 0) {
+    NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] initWithString:self.textLabel.text];
+    NSRange range = [self.textLabel.text rangeOfString:self.searchQuery options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
+    [attributedName addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0, self.textLabel.text.length)];
+    [attributedName addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:range];
+    [attributedName addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:self.textLabel.font.pointSize] range:range];
+    self.textLabel.attributedText = attributedName;
+  }
+}
+
 - (void)_updateMode:(_FBTweakTableViewCellMode)mode
 {
   _mode = mode;
