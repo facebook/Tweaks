@@ -60,7 +60,7 @@
   XCTAssertEqualObjects(testNSString, @"one", @"NSString %@", testNSString);
 
   __attribute__((unused)) UIColor *testUIColor = FBTweakValue(@"UIColor", @"UIColor", @"UIColor", [UIColor redColor]);
-  XCTAssertEqualObjects([UIColor redColor], [UIColor redColor], @"UIColor %@", testUIColor);
+  XCTAssertEqualObjects(testUIColor, [UIColor redColor], @"UIColor %@", testUIColor);
 
   __attribute__((unused)) NSString *testNSArray = FBTweakValue(@"NSArray", @"NSArray", @"NSArray", @"two", (@[@"one", @"two", @"three"]));
   XCTAssertEqualObjects(testNSArray, @"two", @"NSArray %@", testNSArray);
