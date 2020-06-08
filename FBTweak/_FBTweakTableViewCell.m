@@ -62,7 +62,11 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
     [_stepper addTarget:self action:@selector(_stepperChanged:) forControlEvents:UIControlEventValueChanged];
     [_accessoryView addSubview:_stepper];
     
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+    self.detailTextLabel.textColor = [UIColor labelColor];
+#else
     self.detailTextLabel.textColor = [UIColor blackColor];
+#endif
   }
 
   return self;
