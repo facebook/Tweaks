@@ -314,6 +314,7 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
   } else if (_mode == _FBTweakTableViewCellModeString) {
     if (primary) {
       _textField.text = value;
+      [self _updateAutocapitalizationType];
     }
   } else if (_mode == _FBTweakTableViewCellModeInteger) {
     if (primary) {
@@ -345,6 +346,20 @@ typedef NS_ENUM(NSUInteger, _FBTweakTableViewCellMode) {
   } else if (_mode == _FBTweakTableViewCellModeColor) {
     [self.imageView setImage:_FBCreateColorCellsThumbnail(value, CGSizeMake(30, 30))];
   }
+}
+
+- (void)_updateAutocapitalizationType
+{
+    unichar firstLetter = _textField.text.length > 0
+                                ? [_textField.text characterAtIndex:0]
+                                : 0;
+    BOOL isUppercase = [[NSCharacterSet lowercaseLetterCharacterSet] characterIsMember:firstLetter];
+    if (isUppercase) {
+        _textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        return;
+    }
+
+    _textField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
 }
 
 @end
